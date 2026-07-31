@@ -4,7 +4,9 @@ const VIEW_IDS = [
   'categoriesView',
   'mealsView',
   'choiceView',
-  'successView'
+  'successView',
+  'roleView',
+  'haimView'
 ];
 
 export const el = id => document.getElementById(id);
@@ -13,7 +15,7 @@ export function showView(viewId) {
   VIEW_IDS.forEach(id => el(id).classList.toggle('hidden', id !== viewId));
   el('backBtn').classList.toggle(
     'hidden',
-    ['loadingView', 'errorView', 'categoriesView', 'successView'].includes(viewId)
+    ['loadingView', 'errorView', 'categoriesView', 'successView', 'roleView', 'haimView'].includes(viewId)
   );
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }

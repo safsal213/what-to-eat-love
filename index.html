@@ -15,16 +15,40 @@
 <body>
   <header class="topbar">
     <div>
-      <p class="eyebrow">בשביל מעיין ❤️</p>
+      <p id="headerEyebrow" class="eyebrow">בשביל מעיין ❤️</p>
       <h1 id="appTitle">מה בא לך לאכול?</h1>
     </div>
-    <button id="backBtn" class="icon-btn hidden" type="button" aria-label="חזרה">←</button>
+    <div class="header-actions">
+      <button id="switchRoleBtn" class="icon-btn hidden" type="button" aria-label="החלפת משתמש">👤</button>
+      <button id="backBtn" class="icon-btn hidden" type="button" aria-label="חזרה">←</button>
+    </div>
   </header>
 
   <main class="app-shell">
-    <section id="loadingView" class="status-card">
+    <section id="roleView" class="role-screen hidden">
+      <div class="role-intro">
+        <div class="role-logo">❤️</div>
+        <p class="eyebrow">האפליקציה של חיים ומעיין</p>
+        <h2>מי פותח עכשיו?</h2>
+        <p>הבחירה נשמרת במכשיר ואפשר להחליף אחר כך.</p>
+      </div>
+      <div class="role-grid">
+        <button id="chooseMaayanBtn" class="role-card" type="button">
+          <span class="role-avatar">👩</span>
+          <strong>אני מעיין</strong>
+          <small>לבחור מה לאכול</small>
+        </button>
+        <button id="chooseHaimBtn" class="role-card" type="button">
+          <span class="role-avatar">👨</span>
+          <strong>אני חיים</strong>
+          <small>לראות מה מעיין בחרה</small>
+        </button>
+      </div>
+    </section>
+
+    <section id="loadingView" class="status-card hidden">
       <div class="spinner" aria-hidden="true"></div>
-      <h2>טוען את התפריט…</h2>
+      <h2>טוען…</h2>
       <p>עוד רגע הכול מוכן</p>
     </section>
 
@@ -36,9 +60,7 @@
     </section>
 
     <section id="categoriesView" class="hidden">
-      <div class="section-heading">
-        <h2>בחרי ארוחה</h2>
-      </div>
+      <div class="section-heading"><h2>בחרי ארוחה</h2></div>
       <div id="categoriesGrid" class="grid"></div>
     </section>
 
@@ -71,18 +93,42 @@
       <p id="successText"></p>
       <button id="homeBtn" class="primary-btn" type="button">לבחירה חדשה</button>
     </section>
+
+    <section id="haimView" class="hidden">
+      <div class="viewer-heading">
+        <div>
+          <p class="eyebrow">המסך של חיים</p>
+          <h2>מה מעיין בחרה?</h2>
+        </div>
+        <button id="refreshSelectionBtn" class="secondary-btn" type="button">🔄 רענן</button>
+      </div>
+
+      <article id="latestSelectionCard" class="latest-card hidden">
+        <div class="latest-image-wrap">
+          <img id="latestSelectionImage" alt="">
+          <span id="latestSelectionEmoji" class="choice-emoji">🍽️</span>
+        </div>
+        <p class="eyebrow">מעיין רוצה</p>
+        <h2 id="latestSelectionName"></h2>
+        <p id="latestSelectionTime" class="latest-time"></p>
+        <p id="latestSelectionNotes" class="latest-notes hidden"></p>
+        <span id="latestSelectionStatus" class="status-badge">חדש</span>
+      </article>
+
+      <section id="noSelectionCard" class="status-card hidden">
+        <div class="status-emoji">🍽️</div>
+        <h2>עדיין אין בחירה</h2>
+        <p>ברגע שמעיין תבחר מנה היא תופיע כאן.</p>
+      </section>
+
+      <p id="autoRefreshText" class="auto-refresh-text">מתעדכן אוטומטית כל 20 שניות</p>
+    </section>
   </main>
 
   <template id="cardTemplate">
     <button class="food-card" type="button">
-      <div class="image-wrap">
-        <img alt="">
-        <span class="fallback-emoji">🍽️</span>
-      </div>
-      <div class="card-content">
-        <h3></h3>
-        <p></p>
-      </div>
+      <div class="image-wrap"><img alt=""><span class="fallback-emoji">🍽️</span></div>
+      <div class="card-content"><h3></h3><p></p></div>
     </button>
   </template>
 
