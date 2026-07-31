@@ -118,13 +118,194 @@ function renderCategories() {
 
 function renderMeals(category) {
   el('mealsTitle').textContent = category.name;
-  const grid = el('mealsGrid');
-  grid.innerHTML = '';
-  const meals = state.meals.filter(meal => meal.category === category.key);
-  el('emptyMeals').classList.toggle('hidden', meals.length > 0);
-  meals.forEach(meal => grid.appendChild(createCard(meal, () => openMeal(meal))));
-  el('surpriseBtn').onclick = () => openRandomMeal(meals);
+
+  const list = shuffleArray(
+    state.meals.filter(meal => meal.category === category.key)
+  );
+
+  state.swipeMeals = list;
+  state.swipeIndex = 0;
+  state.swipeBusy = false;
+
+  el('emptyMeals').classList.toggle('hidden', list.length > 0);
+  el('swipeActions').classList.toggle('hidden', list.length === 0);
+  el('shuffleDeckBtn').classList.toggle('hidden', list.length === 0);
+
+  renderSwipeDeck();
   showView('mealsView');
+}
+
+function shuffleArray(items) {
+  const result = [...items];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
+  }
+  return result;
+}
+
+function renderSwipeDeck() {
+  const deck = el('swipeDeck');
+  deck.innerHTML = '';
+
+  const remaining = state.swipeMeals.slice(state.swipeIndex, state.swipeIndex + 3);
+  const total = state.swipeMeals.length;
+  const current = Math.min(state.swipeIndex + 1, total);
+
+  el('swipeCounter').textContent = total ? `${current} מתוך ${total}` : '0 מתוך 0';
+
+  if (!remaining.length) {
+    const finished = document.createElement('div');
+    finished.className = 'swipe-finished';
+    finished.innerHTML = `
+      <div>
+        <div class="status-emoji">😅</div>
+        <h2>עברנו על כל המנות</h2>
+        <p>אפשר לערבב מחדש ולנסות שוב.</p>
+      </div>
+    `;
+    deck.appendChild(finished);
+    el('swipeActions').classList.add('hidden');
+    return;
+  }
+
+  remaining
+    .slice()
+    .reverse()
+    .forEach((meal, reverseIndex) => {
+      const actualIndex = state.swipeIndex + (remaining.length - 1 - reverseIndex);
+      const card = createSwipeCard(meal, actualIndex === state.swipeIndex);
+      deck.appendChild(card);
+    });
+
+  el('swipeActions').classList.remove('hidden');
+}
+
+function createSwipeCard(meal, isTopCard) {
+  const card = document.createElement('article');
+  card.className = 'swipe-card';
+  card.dataset.mealId = meal.id;
+
+  const metaItems = [];
+  if (meal.preparationTime) metaItems.push(`⏱️ ${meal.preparationTime} דקות`);
+  if (meal.pregnancySafe) metaItems.push('🤰 מתאים בהיריון');
+  if (meal.calories) metaItems.push(`🔥 ${meal.calories} קלוריות`);
+
+  card.innerHTML = `
+    <div class="swipe-card-image">
+      <span class="swipe-card-emoji">${meal.emoji || '🍽️'}</span>
+      ${meal.image ? `<img src="${meal.image}" alt="">` : ''}
+      <span class="swipe-card-stamp like">בא לי!</span>
+      <span class="swipe-card-stamp nope">לא היום</span>
+    </div>
+    <div class="swipe-card-body">
+      <div class="swipe-card-title-row">
+        <h3>${escapeHtml(meal.name)}</h3>
+        <span class="swipe-favorite">${meal.favorite ? '❤️' : '🤍'}</span>
+      </div>
+      <p class="swipe-card-description">${escapeHtml(meal.description || 'נשמע טעים 😋')}</p>
+      <div class="swipe-card-meta">
+        ${metaItems.map(item => `<span class="meta-pill">${escapeHtml(item)}</span>`).join('')}
+      </div>
+    </div>
+  `;
+
+  const image = card.querySelector('img');
+  if (image) {
+    image.onerror = () => image.remove();
+  }
+
+  if (isTopCard) {
+    enableSwipe(card, meal);
+  }
+
+  return card;
+}
+
+function enableSwipe(card, meal) {
+  let startX = 0;
+  let currentX = 0;
+  let dragging = false;
+
+  const likeStamp = card.querySelector('.like');
+  const nopeStamp = card.querySelector('.nope');
+
+  const pointerDown = event => {
+    if (state.swipeBusy) return;
+    dragging = true;
+    startX = event.clientX;
+    currentX = 0;
+    card.classList.add('is-dragging');
+    card.setPointerCapture?.(event.pointerId);
+  };
+
+  const pointerMove = event => {
+    if (!dragging) return;
+
+    currentX = event.clientX - startX;
+    const rotation = Math.max(-13, Math.min(13, currentX / 18));
+    card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
+
+    const strength = Math.min(1, Math.abs(currentX) / 120);
+    likeStamp.style.opacity = currentX > 0 ? strength : 0;
+    nopeStamp.style.opacity = currentX < 0 ? strength : 0;
+  };
+
+  const pointerUp = () => {
+    if (!dragging) return;
+    dragging = false;
+    card.classList.remove('is-dragging');
+
+    if (Math.abs(currentX) >= 95) {
+      handleSwipe(currentX > 0 ? 'right' : 'left', meal, card);
+      return;
+    }
+
+    card.style.transform = '';
+    likeStamp.style.opacity = 0;
+    nopeStamp.style.opacity = 0;
+  };
+
+  card.addEventListener('pointerdown', pointerDown);
+  card.addEventListener('pointermove', pointerMove);
+  card.addEventListener('pointerup', pointerUp);
+  card.addEventListener('pointercancel', pointerUp);
+}
+
+function handleSwipe(direction, meal, card = null) {
+  if (state.swipeBusy || !meal) return;
+  state.swipeBusy = true;
+
+  const activeCard = card || el('swipeDeck').querySelector('.swipe-card:last-child');
+  if (!activeCard) {
+    state.swipeBusy = false;
+    return;
+  }
+
+  activeCard.classList.add(
+    direction === 'right' ? 'is-exiting-right' : 'is-exiting-left'
+  );
+
+  window.setTimeout(() => {
+    if (direction === 'right') {
+      openMeal(meal);
+      state.swipeBusy = false;
+      return;
+    }
+
+    state.swipeIndex += 1;
+    state.swipeBusy = false;
+    renderSwipeDeck();
+  }, 260);
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
 function openRandomMeal(meals) {
@@ -252,6 +433,23 @@ el('refreshSelectionBtn').addEventListener('click', refreshLatestSelection);
 el('confirmBtn').addEventListener('click', confirmSelection);
 el('homeBtn').addEventListener('click', () => showView('categoriesView'));
 el('retryBtn').addEventListener('click', startApp);
+
+el('skipMealBtn').addEventListener('click', () => {
+  const meal = state.swipeMeals[state.swipeIndex];
+  handleSwipe('left', meal);
+});
+
+el('chooseMealBtn').addEventListener('click', () => {
+  const meal = state.swipeMeals[state.swipeIndex];
+  handleSwipe('right', meal);
+});
+
+el('shuffleDeckBtn').addEventListener('click', () => {
+  state.swipeMeals = shuffleArray(state.swipeMeals);
+  state.swipeIndex = 0;
+  state.swipeBusy = false;
+  renderSwipeDeck();
+});
 
 el('backBtn').addEventListener('click', () => {
   if (!el('choiceView').classList.contains('hidden') && state.selectedCategory) return showView('mealsView');
