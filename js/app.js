@@ -126,11 +126,24 @@ el('homeBtn').addEventListener('click', () => showView('categoriesView'));
 el('retryBtn').addEventListener('click', startApp);
 
 el('backBtn').addEventListener('click', () => {
-  if (state.selectedCategory) {
-    renderMeals(state.selectedCategory);
-  } else {
-    showView('categoriesView');
+  const choiceViewOpen =
+    !el('choiceView').classList.contains('hidden');
+
+  const mealsViewOpen =
+    !el('mealsView').classList.contains('hidden');
+
+  if (choiceViewOpen && state.selectedCategory) {
+    showView('mealsView');
+    return;
   }
+
+  if (mealsViewOpen) {
+    state.selectedCategory = null;
+    showView('categoriesView');
+    return;
+  }
+
+  showView('categoriesView');
 });
 
 if ('serviceWorker' in navigator) {
