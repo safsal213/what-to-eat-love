@@ -1,4 +1,4 @@
-import { fetchAppData, fetchLatestSelection, saveSelection } from './api.js';
+import { fetchAppData, fetchLatestSelection, saveSelection, toggleFavorite } from './api.js';
 import { normalizeAppData } from './data.js';
 import {
   saveCachedData,
@@ -17,6 +17,7 @@ const state = {
   categories: [],
   meals: [],
   settings: {},
+  favorites: [],
   selectedCategory: null,
   selectedMeal: null,
   role: getUserRole(),
@@ -36,7 +37,8 @@ const swipeController = createSwipeController({
   setBusy: value => {
     state.swipeBusy = value;
   },
-  onChoose: meal => openMeal(meal)
+  onChoose: meal => openMeal(meal),
+  onToggleFavorite: meal => handleToggleFavorite(meal)
 });
 
 async function startApp() {
@@ -64,6 +66,7 @@ function applyData(data) {
   state.categories = data.categories;
   state.meals = data.meals;
   state.settings = data.settings;
+  state.favorites = data.favorites || [];
   document.title = state.settings.AppName || 'מה בא לך לאכול אהובתי?';
   openRoleHome();
 }
@@ -151,6 +154,25 @@ function renderMeals(category) {
 
   swipeController.render();
   showView('mealsView');
+}
+
+async function handleToggleFavorite(meal) {
+  if (!meal || state.role !== 'maayan') return;
+
+  const previousValue = meal.favorite;
+  meal.favorite = !meal.favorite;
+  swipeController.render();
+
+  try {
+    const result = await toggleFavorite(meal, 'מעיין');
+    meal.favorite = Boolean(result?.Active);
+    swipeController.render();
+  } catch (error) {
+    console.error(error);
+    meal.favorite = previousValue;
+    swipeController.render();
+    alert('לא הצלחנו לעדכן את המועדפים');
+  }
 }
 
 function openRandomMeal(meals) {

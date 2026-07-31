@@ -41,3 +41,20 @@ export async function saveSelection(meal) {
   });
   return readJson(response);
 }
+
+
+export async function toggleFavorite(meal, user = 'מעיין') {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'toggleFavorite',
+      user,
+      mealId: meal.id,
+      mealName: meal.name
+    })
+  });
+
+  const data = await readJson(response);
+  return data.favorite;
+}
