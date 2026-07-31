@@ -43,6 +43,29 @@ const swipeController = createSwipeController({
   onToggleFavorite: meal => handleToggleFavorite(meal)
 });
 
+let toastTimer = null;
+
+function showToast(message, type = 'info') {
+  const toast = el('appToast');
+
+  window.clearTimeout(toastTimer);
+  toast.textContent = message;
+  toast.dataset.type = type;
+  toast.classList.remove('hidden', 'is-visible');
+
+  requestAnimationFrame(() => {
+    toast.classList.add('is-visible');
+  });
+
+  toastTimer = window.setTimeout(() => {
+    toast.classList.remove('is-visible');
+
+    window.setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 220);
+  }, 2800);
+}
+
 async function startApp() {
   stopLatestSelectionPolling();
   if (!state.role) {
@@ -194,11 +217,21 @@ async function handleToggleFavorite(meal, options = {}) {
     const result = await toggleFavorite(meal, 'מעיין');
     meal.favorite = Boolean(result?.Active);
     updateFavoriteViews(options);
+
+    showToast(
+      meal.favorite
+        ? 'נוסף למועדפים ❤️'
+        : 'הוסר מהמועדפים',
+      'success'
+    );
   } catch (error) {
-    console.error(error);
+    console.error('Favorite update failed:', error);
     meal.favorite = previousValue;
     updateFavoriteViews(options);
-    alert('לא הצלחנו לעדכן את המועדפים');
+    showToast(
+      error?.message || 'לא הצלחנו לעדכן את המועדפים',
+      'error'
+    );
   }
 }
 

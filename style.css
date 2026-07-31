@@ -461,3 +461,35 @@ html[data-theme="light"]{
 @keyframes favoriteIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:390px){.favorites-grid{gap:11px}.favorite-card-content{padding:10px}.favorite-title-row h3{font-size:15px}.favorites-entry-btn small{display:none}.favorites-entry-btn{width:48px;padding:0}}
 @media(min-width:700px){.favorites-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+
+/* v1.6.1 — non-blocking app toast */
+.app-toast{
+  position:fixed;
+  z-index:9999;
+  left:50%;
+  bottom:calc(22px + env(safe-area-inset-bottom));
+  width:min(calc(100% - 32px),420px);
+  padding:13px 16px;
+  border-radius:16px;
+  background:rgba(47,28,22,.94);
+  color:#fff;
+  text-align:center;
+  font-size:14px;
+  font-weight:850;
+  box-shadow:0 14px 34px rgba(47,28,22,.25);
+  backdrop-filter:blur(14px);
+  opacity:0;
+  transform:translate(-50%,18px);
+  transition:opacity .2s ease,transform .2s ease;
+}
+.app-toast.is-visible{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+.app-toast[data-type="success"]{
+  background:rgba(39,116,45,.94);
+}
+.app-toast[data-type="error"]{
+  background:rgba(173,53,55,.96);
+}
