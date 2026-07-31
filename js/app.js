@@ -452,11 +452,26 @@ el('shuffleDeckBtn').addEventListener('click', () => {
 });
 
 el('backBtn').addEventListener('click', () => {
-  if (!el('choiceView').classList.contains('hidden') && state.selectedCategory) return showView('mealsView');
-  if (!el('mealsView').classList.contains('hidden')) {
-    state.selectedCategory = null;
-    return showView('categoriesView');
+  const choiceViewOpen = !el('choiceView').classList.contains('hidden');
+  const mealsViewOpen = !el('mealsView').classList.contains('hidden');
+
+  if (choiceViewOpen && state.selectedCategory) {
+    state.swipeBusy = false;
+    state.selectedMeal = null;
+    renderSwipeDeck();
+    showView('mealsView');
+    return;
   }
+
+  if (mealsViewOpen) {
+    state.selectedCategory = null;
+    state.swipeMeals = [];
+    state.swipeIndex = 0;
+    state.swipeBusy = false;
+    showView('categoriesView');
+    return;
+  }
+
   showView('categoriesView');
 });
 
