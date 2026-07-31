@@ -103,19 +103,22 @@ function openMeal(meal) {
   showView('choiceView');
 }
 
-function confirmSelection() {
+async function confirmSelection() {
   const meal = state.selectedMeal;
+
   if (!meal) return;
 
-  const selection = {
-    ...meal,
-    selectedBy: 'מעיין',
-    selectedAt: new Date().toISOString()
-  };
+  try {
+    await saveSelection(meal);
 
-  saveLatestSelection(selection);
-  el('successText').textContent = `בחרת: ${meal.name}`;
-  showView('successView');
+    el('successText').textContent =
+      `מעולה ❤️ בחרת ${meal.name}`;
+
+    showView('successView');
+  } catch (error) {
+    alert('לא הצלחנו לשמור את הבחירה');
+    console.error(error);
+  }
 }
 
 el('confirmBtn').addEventListener('click', confirmSelection);
