@@ -1,4 +1,4 @@
-const CACHE_NAME = 'what-to-eat-v10-favorites-screen';
+const CACHE_NAME = 'what-to-eat-v10-favorites-fix';
 const STATIC_ASSETS = [
   './','index.html','style.css','manifest.json','js/app.js','js/api.js','js/data.js','js/storage.js','js/ui.js',
   'js/swipe.js',
