@@ -161,3 +161,208 @@
 @media(min-width:700px){
   .category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+
+/* v1.3 step 1 — swipe meal deck */
+.swipe-view{
+  overflow:hidden;
+}
+.swipe-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+.swipe-heading h2{
+  margin:0;
+  font-size:29px;
+}
+.swipe-counter{
+  flex:0 0 auto;
+  padding:8px 11px;
+  border-radius:999px;
+  background:#fff;
+  color:#7a3d24;
+  font-size:12px;
+  font-weight:850;
+  box-shadow:0 7px 20px rgba(79,39,24,.09);
+}
+.swipe-deck{
+  position:relative;
+  width:100%;
+  min-height:min(65vh,570px);
+  margin:0 auto 18px;
+  perspective:1200px;
+}
+.swipe-card{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  border-radius:30px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 20px 48px rgba(71,31,17,.17);
+  touch-action:none;
+  user-select:none;
+  transform-origin:50% 100%;
+  will-change:transform,opacity;
+  transition:transform .32s cubic-bezier(.2,.85,.2,1),opacity .25s ease;
+}
+.swipe-card:nth-last-child(2){
+  transform:translateY(12px) scale(.965);
+  opacity:.72;
+}
+.swipe-card:nth-last-child(3){
+  transform:translateY(24px) scale(.93);
+  opacity:.42;
+}
+.swipe-card.is-dragging{
+  transition:none;
+}
+.swipe-card.is-exiting-left{
+  transform:translate(-135%,12px) rotate(-18deg)!important;
+  opacity:0;
+}
+.swipe-card.is-exiting-right{
+  transform:translate(135%,12px) rotate(18deg)!important;
+  opacity:0;
+}
+.swipe-card-image{
+  position:relative;
+  flex:1 1 62%;
+  min-height:310px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 75% 20%,rgba(255,255,255,.55),transparent 28%),
+    linear-gradient(140deg,#f4d3bd,#d88158);
+  display:grid;
+  place-items:center;
+}
+.swipe-card-image img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.swipe-card-emoji{
+  font-size:82px;
+  filter:drop-shadow(0 12px 18px rgba(70,30,15,.22));
+}
+.swipe-card-stamp{
+  position:absolute;
+  top:24px;
+  padding:9px 16px;
+  border:4px solid currentColor;
+  border-radius:12px;
+  font-size:24px;
+  font-weight:950;
+  letter-spacing:.04em;
+  opacity:0;
+  transform:rotate(-11deg) scale(.85);
+  transition:opacity .08s linear;
+  background:rgba(255,255,255,.84);
+  backdrop-filter:blur(8px);
+}
+.swipe-card-stamp.like{
+  right:22px;
+  color:#2c9b58;
+}
+.swipe-card-stamp.nope{
+  left:22px;
+  color:#d84f50;
+  transform:rotate(11deg) scale(.85);
+}
+.swipe-card-body{
+  flex:0 0 auto;
+  padding:18px 18px 20px;
+}
+.swipe-card-title-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.swipe-card-title-row h3{
+  margin:0;
+  font-size:28px;
+  line-height:1.1;
+}
+.swipe-favorite{
+  flex:0 0 auto;
+  font-size:22px;
+}
+.swipe-card-description{
+  margin:9px 0 14px;
+  color:#745f57;
+  line-height:1.5;
+}
+.swipe-card-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.swipe-actions{
+  display:grid;
+  grid-template-columns:1fr 1.7fr;
+  gap:12px;
+  margin-top:4px;
+}
+.swipe-action{
+  min-height:64px;
+  border:0;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 10px 26px rgba(70,30,15,.12);
+}
+.swipe-action span{
+  font-size:25px;
+  line-height:1;
+}
+.swipe-action small{
+  font-size:13px;
+  font-weight:900;
+}
+.swipe-action.skip{
+  background:#fff;
+  color:#c14b4d;
+}
+.swipe-action.choose{
+  background:linear-gradient(135deg,#d96d47,#bd4d35);
+  color:#fff;
+}
+.swipe-action:active{
+  transform:scale(.97);
+}
+.shuffle-deck-btn{
+  display:block;
+  margin:13px auto 0;
+}
+.swipe-finished{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:30px;
+  border-radius:30px;
+  background:#fff;
+  box-shadow:0 16px 40px rgba(71,31,17,.12);
+}
+.swipe-finished .status-emoji{
+  margin-bottom:10px;
+}
+@media(max-width:420px){
+  .swipe-deck{min-height:550px}
+  .swipe-card-image{min-height:300px}
+  .swipe-card-title-row h3{font-size:25px}
+  .swipe-actions{grid-template-columns:1fr 1.55fr}
+  .swipe-action small{font-size:12px}
+}

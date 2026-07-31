@@ -74,12 +74,32 @@
       <div id="categoriesGrid" class="category-grid"></div>
     </section>
 
-    <section id="mealsView" class="hidden">
-      <div class="section-heading">
-        <h2 id="mealsTitle">מנות</h2>
-        <button id="surpriseBtn" class="secondary-btn" type="button">🎲 תפתיע אותי</button>
+    <section id="mealsView" class="hidden swipe-view">
+      <div class="swipe-heading">
+        <div>
+          <p class="eyebrow">החליקי שמאלה או ימינה</p>
+          <h2 id="mealsTitle">מנות</h2>
+        </div>
+        <span id="swipeCounter" class="swipe-counter">1 מתוך 1</span>
       </div>
-      <div id="mealsGrid" class="grid"></div>
+
+      <div id="swipeDeck" class="swipe-deck" aria-live="polite"></div>
+
+      <div id="swipeActions" class="swipe-actions">
+        <button id="skipMealBtn" class="swipe-action skip" type="button" aria-label="לא בא לי">
+          <span>✕</span>
+          <small>לא בא לי</small>
+        </button>
+        <button id="chooseMealBtn" class="swipe-action choose" type="button" aria-label="זה בדיוק מה שבא לי">
+          <span>♥</span>
+          <small>זה בדיוק מה שבא לי</small>
+        </button>
+      </div>
+
+      <button id="shuffleDeckBtn" class="secondary-btn shuffle-deck-btn" type="button">
+        🔀 ערבבי מחדש
+      </button>
+
       <p id="emptyMeals" class="empty-message hidden">אין כרגע מנות בקטגוריה הזאת.</p>
     </section>
 
