@@ -1,4 +1,4 @@
-import { fetchAppData } from './api.js';
+import { fetchAppData, saveSelection } from './api.js';
 import { normalizeAppData } from './data.js';
 import { saveCachedData, getCachedData, saveLatestSelection } from './storage.js';
 import { el, showView, createCard, setImageWithFallback, renderMeta, showError } from './ui.js';
