@@ -9,7 +9,7 @@ import {
   getUserRole,
   clearUserRole
 } from './storage.js';
-import { el, showView, createCard, setImageWithFallback, renderMeta, showError } from './ui.js';
+import { el, showView, createCard, createCategoryCard, setImageWithFallback, renderMeta, showError } from './ui.js';
 
 const state = {
   categories: [],
@@ -99,12 +99,20 @@ function updateHeaderForRole(role) {
 function renderCategories() {
   const grid = el('categoriesGrid');
   grid.innerHTML = '';
-  state.categories.forEach(category => {
-    grid.appendChild(createCard(category, () => {
+
+  state.categories.forEach((category, index) => {
+    const mealCount = category.key === 'surprise'
+      ? state.meals.length
+      : state.meals.filter(meal => meal.category === category.key).length;
+
+    const card = createCategoryCard(category, mealCount, () => {
       if (category.key === 'surprise') return openRandomMeal(state.meals);
       state.selectedCategory = category;
       renderMeals(category);
-    }));
+    });
+
+    card.style.setProperty('--card-index', index);
+    grid.appendChild(card);
   });
 }
 

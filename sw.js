@@ -1,4 +1,4 @@
-const CACHE_NAME = 'what-to-eat-v4-header';
+const CACHE_NAME = 'what-to-eat-v5-category-cards';
 const STATIC_ASSETS = [
   './','index.html','style.css','manifest.json','js/app.js','js/api.js','js/data.js','js/storage.js','js/ui.js','icons/icon-192.png','icons/icon-512.png'
 ];
