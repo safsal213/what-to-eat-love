@@ -32,6 +32,13 @@ export function normalizeAppData(raw) {
     .filter(item => item.key && item.name)
     .sort((a, b) => a.order - b.order);
 
+  const favoriteMealIds = new Set(
+    (raw.favorites || [])
+      .filter(item => toBoolean(item.Active))
+      .map(item => clean(item.MealID))
+      .filter(Boolean)
+  );
+
   const meals = (raw.meals || [])
     .filter(item => isActive(item))
     .map(item => ({
@@ -44,7 +51,7 @@ export function normalizeAppData(raw) {
       trimester: clean(item.Trimester),
       preparationTime: clean(item.PreparationTime),
       calories: clean(item.Calories),
-      favorite: toBoolean(item.Favorite),
+      favorite: favoriteMealIds.has(clean(item.MealID)) || toBoolean(item.Favorite),
       order: toNumber(item.DisplayOrder),
       emoji: '🍽️'
     }))
@@ -54,7 +61,8 @@ export function normalizeAppData(raw) {
   return {
     categories,
     meals,
-    settings: raw.settings || {}
+    settings: raw.settings || {},
+    favorites: raw.favorites || []
   };
 }
 

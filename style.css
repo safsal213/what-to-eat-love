@@ -400,3 +400,30 @@ html[data-theme="light"]{
   .swipe-actions{grid-template-columns:1fr 1.55fr}
   .swipe-action small{font-size:12px}
 }
+
+
+/* v1.5 — favorites */
+.swipe-favorite{
+  flex:0 0 auto;
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:0;
+  border-radius:16px;
+  background:var(--color-surface-soft);
+  font-size:24px;
+  cursor:pointer;
+  box-shadow:var(--shadow-sm);
+  transition:
+    transform var(--motion-fast) ease,
+    background var(--motion-fast) ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.swipe-favorite:active{
+  transform:scale(.88);
+}
+.swipe-favorite[aria-pressed="true"]{
+  background:#fff0f2;
+}

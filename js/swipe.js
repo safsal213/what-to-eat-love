@@ -7,7 +7,8 @@ export function createSwipeController({
   setIndex,
   getBusy,
   setBusy,
-  onChoose
+  onChoose,
+  onToggleFavorite
 }) {
   function render() {
     const deck = el('swipeDeck');
@@ -84,7 +85,12 @@ export function createSwipeController({
       <div class="swipe-card-body">
         <div class="swipe-card-title-row">
           <h3>${escapeHtml(meal.name)}</h3>
-          <span class="swipe-favorite">${meal.favorite ? '❤️' : '🤍'}</span>
+          <button
+            class="swipe-favorite"
+            type="button"
+            aria-label="${meal.favorite ? 'הסר ממועדפים' : 'הוסף למועדפים'}"
+            aria-pressed="${meal.favorite ? 'true' : 'false'}"
+          >${meal.favorite ? '❤️' : '🤍'}</button>
         </div>
 
         <p class="swipe-card-description">
@@ -100,10 +106,24 @@ export function createSwipeController({
     `;
 
     const image = card.querySelector('img');
+    const favoriteButton = card.querySelector('.swipe-favorite');
 
     if (image) {
       image.onerror = () => image.remove();
     }
+
+    favoriteButton.addEventListener('pointerdown', event => {
+      event.stopPropagation();
+    });
+
+    favoriteButton.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (typeof onToggleFavorite === 'function') {
+        onToggleFavorite(meal);
+      }
+    });
 
     if (isTopCard) {
       enableDrag(card, meal);
