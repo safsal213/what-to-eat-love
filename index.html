@@ -69,9 +69,34 @@
           <p class="eyebrow">מה מתחשק לך עכשיו?</p>
           <h2>בחרי סוג ארוחה</h2>
         </div>
-        <span class="categories-sparkle" aria-hidden="true">✨</span>
+        <div class="categories-actions">
+          <button id="openFavoritesBtn" class="favorites-entry-btn" type="button" aria-label="המועדפים שלי">
+            <span>❤️</span>
+            <small>המועדפים שלי</small>
+          </button>
+          <span class="categories-sparkle" aria-hidden="true">✨</span>
+        </div>
       </div>
       <div id="categoriesGrid" class="category-grid"></div>
+    </section>
+
+    <section id="favoritesView" class="hidden">
+      <div class="favorites-heading">
+        <div>
+          <p class="eyebrow">כל מה שאהבת</p>
+          <h2>המועדפים שלי ❤️</h2>
+        </div>
+        <span id="favoritesCount" class="favorites-count">0 מנות</span>
+      </div>
+
+      <div id="favoritesGrid" class="favorites-grid"></div>
+
+      <section id="favoritesEmpty" class="favorites-empty hidden">
+        <div class="status-emoji">🤍</div>
+        <h2>עדיין אין מועדפים</h2>
+        <p>לחצי על הלב בכרטיס של מנה והיא תופיע כאן.</p>
+        <button id="favoritesHomeBtn" class="primary-btn" type="button">לבחירת מנות</button>
+      </section>
     </section>
 
     <section id="mealsView" class="hidden swipe-view">

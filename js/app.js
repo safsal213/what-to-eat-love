@@ -12,6 +12,7 @@ import {
 import { el, showView, createCard, createCategoryCard, setImageWithFallback, renderMeta, showError } from './ui.js';
 import { shuffleArray } from './utils.js';
 import { createSwipeController } from './swipe.js';
+import { renderFavoritesScreen } from './favorites.js';
 
 const state = {
   categories: [],
@@ -24,7 +25,8 @@ const state = {
   latestSelectionTimer: null,
   swipeMeals: [],
   swipeIndex: 0,
-  swipeBusy: false
+  swipeBusy: false,
+  previousView: null
 };
 
 const swipeController = createSwipeController({
@@ -128,12 +130,37 @@ function renderCategories() {
 
     const card = createCategoryCard(category, mealCount, () => {
       if (category.key === 'surprise') return openRandomMeal(state.meals);
+      state.previousView = null;
       state.selectedCategory = category;
       renderMeals(category);
     });
 
     card.style.setProperty('--card-index', index);
     grid.appendChild(card);
+  });
+}
+
+function openFavorites() {
+  state.previousView = 'categoriesView';
+  renderFavoritesScreen({
+    meals: state.meals,
+    onOpen: meal => {
+      state.previousView = 'favoritesView';
+      openMeal(meal);
+    },
+    onRemove: meal => handleToggleFavorite(meal, { returnToFavorites: true })
+  });
+  showView('favoritesView');
+}
+
+function refreshFavoritesView() {
+  renderFavoritesScreen({
+    meals: state.meals,
+    onOpen: meal => {
+      state.previousView = 'favoritesView';
+      openMeal(meal);
+    },
+    onRemove: meal => handleToggleFavorite(meal, { returnToFavorites: true })
   });
 }
 
@@ -156,22 +183,32 @@ function renderMeals(category) {
   showView('mealsView');
 }
 
-async function handleToggleFavorite(meal) {
+async function handleToggleFavorite(meal, options = {}) {
   if (!meal || state.role !== 'maayan') return;
 
   const previousValue = meal.favorite;
   meal.favorite = !meal.favorite;
-  swipeController.render();
+  updateFavoriteViews(options);
 
   try {
     const result = await toggleFavorite(meal, 'מעיין');
     meal.favorite = Boolean(result?.Active);
-    swipeController.render();
+    updateFavoriteViews(options);
   } catch (error) {
     console.error(error);
     meal.favorite = previousValue;
-    swipeController.render();
+    updateFavoriteViews(options);
     alert('לא הצלחנו לעדכן את המועדפים');
+  }
+}
+
+function updateFavoriteViews(options = {}) {
+  if (options.returnToFavorites || !el('favoritesView').classList.contains('hidden')) {
+    refreshFavoritesView();
+  }
+
+  if (!el('mealsView').classList.contains('hidden')) {
+    swipeController.render();
   }
 }
 
@@ -297,8 +334,10 @@ el('chooseMaayanBtn').addEventListener('click', () => chooseRole('maayan'));
 el('chooseHaimBtn').addEventListener('click', () => chooseRole('haim'));
 el('switchRoleBtn').addEventListener('click', switchRole);
 el('refreshSelectionBtn').addEventListener('click', refreshLatestSelection);
+el('openFavoritesBtn').addEventListener('click', openFavorites);
+el('favoritesHomeBtn').addEventListener('click', () => showView('categoriesView'));
 el('confirmBtn').addEventListener('click', confirmSelection);
-el('homeBtn').addEventListener('click', () => showView('categoriesView'));
+el('homeBtn').addEventListener('click', () => { state.previousView = null; showView('categoriesView'); });
 el('retryBtn').addEventListener('click', startApp);
 
 el('skipMealBtn').addEventListener('click', () => {
@@ -321,6 +360,20 @@ el('shuffleDeckBtn').addEventListener('click', () => {
 el('backBtn').addEventListener('click', () => {
   const choiceViewOpen = !el('choiceView').classList.contains('hidden');
   const mealsViewOpen = !el('mealsView').classList.contains('hidden');
+  const favoritesViewOpen = !el('favoritesView').classList.contains('hidden');
+
+  if (choiceViewOpen && state.previousView === 'favoritesView') {
+    state.selectedMeal = null;
+    refreshFavoritesView();
+    showView('favoritesView');
+    return;
+  }
+
+  if (favoritesViewOpen) {
+    state.previousView = null;
+    showView('categoriesView');
+    return;
+  }
 
   if (choiceViewOpen && state.selectedCategory) {
     state.swipeBusy = false;
