@@ -2,6 +2,7 @@ const VIEW_IDS = [
   'loadingView',
   'errorView',
   'categoriesView',
+  'favoritesView',
   'mealsView',
   'choiceView',
   'successView',
