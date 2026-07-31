@@ -74,17 +74,25 @@ function openRoleHome() {
 function updateHeaderForRole(role) {
   const eyebrow = el('headerEyebrow');
   const title = el('appTitle');
+  const greeting = el('headerGreeting');
+  const avatar = el('headerAvatar');
   el('switchRoleBtn').classList.toggle('hidden', !role);
 
   if (role === 'haim') {
-    eyebrow.textContent = 'בשביל חיים 👨';
+    eyebrow.textContent = 'שלום חיים';
     title.textContent = 'הבחירה של מעיין';
+    greeting.textContent = 'כאן תראה מיד מה בא לה לאכול';
+    avatar.textContent = '👨';
   } else if (role === 'maayan') {
-    eyebrow.textContent = 'בשביל מעיין ❤️';
-    title.textContent = state.settings.AppName || 'מה בא לך לאכול?';
+    eyebrow.textContent = 'היי מעיין 🌸';
+    title.textContent = state.settings.AppName || 'מה בא לך לאכול היום?';
+    greeting.textContent = 'בחרי את מה שהכי עושה לך חשק';
+    avatar.textContent = '👩';
   } else {
-    eyebrow.textContent = 'האפליקציה שלנו ❤️';
+    eyebrow.textContent = 'האפליקציה של חיים ומעיין';
     title.textContent = 'מה בא לך?';
+    greeting.textContent = 'בוחרים משהו טעים ביחד';
+    avatar.textContent = '❤️';
   }
 }
 
