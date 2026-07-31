@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7a3d24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <title>מה בא לך לאכול אהובתי?</title>
+</head>
+<body>
+  <header class="topbar">
+    <div><p class="eyebrow">בשביל מעיין ❤️</p><h1>מה בא לך לאכול?</h1></div>
+    <button id="backBtn" class="icon-btn hidden">←</button>
+  </header>
+  <main class="app-shell">
+    <section id="categoriesView"><h2>בחרי ארוחה</h2><div id="categoriesGrid" class="grid"></div></section>
+    <section id="mealsView" class="hidden">
+      <div class="section-heading"><h2 id="mealsTitle">מנות</h2><button id="surpriseBtn" class="secondary-btn">🎲 תפתיע אותי</button></div>
+      <div id="mealsGrid" class="grid"></div>
+    </section>
+    <section id="choiceView" class="hidden"><div class="choice-card">
+      <p class="eyebrow">הבחירה של מעיין</p><img id="choiceImage" alt=""><h2 id="choiceName"></h2>
+      <p id="choiceDescription"></p><button id="confirmBtn" class="primary-btn">בא לי את זה ❤️</button>
+    </div></section>
+    <section id="successView" class="hidden success-card">
+      <div class="success-icon">✓</div><h2>הבחירה נשמרה</h2><p id="successText"></p>
+      <button id="homeBtn" class="primary-btn">לבחירה חדשה</button>
+    </section>
+  </main>
+  <template id="cardTemplate"><button class="food-card">
+    <div class="image-wrap"><img alt=""><span class="fallback-emoji"></span></div>
+    <div class="card-content"><h3></h3><p></p></div>
+  </button></template>
+  <script src="app.js"></script>
+</body>
+</html>
