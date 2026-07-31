@@ -34,6 +34,64 @@ export function createCard(item, onClick) {
   return card;
 }
 
+export function createCategoryCard(category, mealCount, onClick) {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'category-card';
+  card.dataset.category = category.key || 'default';
+
+  const visual = document.createElement('div');
+  visual.className = 'category-visual';
+
+  const image = document.createElement('img');
+  image.className = 'category-image';
+  image.alt = '';
+
+  const emoji = document.createElement('span');
+  emoji.className = 'category-emoji';
+  emoji.textContent = category.emoji || '🍽️';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'category-overlay';
+
+  const count = document.createElement('span');
+  count.className = 'category-count';
+  count.textContent = category.key === 'surprise'
+    ? 'בחירה אקראית'
+    : `${mealCount} ${mealCount === 1 ? 'מנה' : 'מנות'}`;
+
+  const content = document.createElement('div');
+  content.className = 'category-content';
+
+  const title = document.createElement('h3');
+  title.textContent = category.name;
+
+  const description = document.createElement('p');
+  description.textContent = category.description || '';
+
+  visual.append(image, emoji, overlay, count);
+  content.append(title, description);
+  card.append(visual, content);
+
+  const validImage = category.image &&
+    !String(category.image).includes('#') &&
+    !String(category.image).startsWith('images/categories/#');
+
+  if (validImage) {
+    image.src = category.image;
+    image.onload = () => {
+      image.classList.add('is-loaded');
+      emoji.classList.add('is-hidden');
+    };
+    image.onerror = () => image.remove();
+  } else {
+    image.remove();
+  }
+
+  card.addEventListener('click', onClick);
+  return card;
+}
+
 export function setImageWithFallback(imageElement, source, fallbackElement) {
   fallbackElement?.classList.remove('hidden');
   imageElement.classList.remove('hidden');
