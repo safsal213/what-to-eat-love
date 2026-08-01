@@ -2105,3 +2105,177 @@ a:focus-visible,
     display:none!important;
   }
 }
+
+
+/* v2.8 — Roulette Step 6.3 Cinematic Reveal */
+.roulette-reveal{
+  min-height:128px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:12px;
+}
+
+.roulette-winner-copy{
+  width:100%;
+  animation:winnerCopyIn .58s .08s cubic-bezier(.2,.88,.22,1.2) both;
+}
+
+.roulette-winner-kicker{
+  margin:0 0 6px;
+  color:var(--color-primary-dark);
+  font-size:13px;
+  font-weight:900;
+}
+
+.roulette-winner-copy h3{
+  margin:0 0 7px;
+  font-size:28px;
+  line-height:1.08;
+  letter-spacing:-.03em;
+}
+
+.roulette-winner-reason{
+  margin:0;
+  color:var(--color-text-muted);
+  font-size:14px;
+  font-weight:750;
+  line-height:1.45;
+}
+
+.roulette-window.is-spotlight{
+  box-shadow:
+    0 24px 58px rgba(71,31,17,.18),
+    0 0 0 2px rgba(255,255,255,.7),
+    0 0 42px rgba(224,125,84,.18);
+}
+
+.roulette-window.is-spotlight::before,
+.roulette-window.is-spotlight::after{
+  background:linear-gradient(
+    180deg,
+    rgba(73,43,32,.34),
+    rgba(73,43,32,0)
+  );
+}
+
+.roulette-window.is-spotlight::after{
+  background:linear-gradient(
+    0deg,
+    rgba(73,43,32,.34),
+    rgba(73,43,32,0)
+  );
+}
+
+.roulette-item.is-dimmed{
+  opacity:.3;
+  filter:saturate(.55) brightness(.78);
+  transition:
+    opacity .42s ease,
+    filter .42s ease;
+}
+
+.roulette-item.is-winner{
+  z-index:8;
+}
+
+.roulette-item.is-winner .roulette-image-wrap{
+  animation:winnerHeroBreath .9s cubic-bezier(.2,.88,.22,1.1) both;
+}
+
+.roulette-window.is-pulsing{
+  animation:roulettePulseFrame .76s cubic-bezier(.2,.9,.25,1.2);
+}
+
+.roulette-morphing #rouletteView{
+  animation:rouletteMorphOut .42s cubic-bezier(.2,.82,.2,1) both;
+}
+
+.roulette-morphing #choiceView:not(.hidden){
+  animation:choiceMorphIn .46s cubic-bezier(.2,.82,.2,1) both;
+}
+
+@keyframes winnerCopyIn{
+  from{
+    opacity:0;
+    transform:translateY(10px) scale(.985);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@keyframes winnerHeroBreath{
+  0%{
+    transform:scale(1);
+  }
+  45%{
+    transform:scale(1.07);
+  }
+  100%{
+    transform:scale(1.025);
+  }
+}
+
+@keyframes roulettePulseFrame{
+  0%{
+    transform:scale(1);
+  }
+  48%{
+    transform:scale(1.012);
+    box-shadow:
+      0 24px 58px rgba(71,31,17,.18),
+      0 0 0 6px rgba(255,224,207,.48),
+      0 0 56px rgba(224,125,84,.26);
+  }
+  100%{
+    transform:scale(1);
+  }
+}
+
+@keyframes rouletteMorphOut{
+  from{
+    opacity:1;
+    transform:scale(1);
+  }
+  to{
+    opacity:0;
+    transform:scale(1.025);
+    filter:blur(3px);
+  }
+}
+
+@keyframes choiceMorphIn{
+  from{
+    opacity:0;
+    transform:scale(.97) translateY(10px);
+    filter:blur(3px);
+  }
+  to{
+    opacity:1;
+    transform:scale(1) translateY(0);
+    filter:blur(0);
+  }
+}
+
+@media(max-width:390px){
+  .roulette-winner-copy h3{
+    font-size:24px;
+  }
+
+  .roulette-winner-reason{
+    font-size:13px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .roulette-winner-copy,
+  .roulette-item.is-winner .roulette-image-wrap,
+  .roulette-window.is-pulsing,
+  .roulette-morphing #rouletteView,
+  .roulette-morphing #choiceView:not(.hidden){
+    animation:none!important;
+  }
+}

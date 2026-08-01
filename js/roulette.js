@@ -26,7 +26,7 @@ export function createRouletteController({
   let running = false;
   let statusIndex = 0;
 
-  function start({ meals = [], pickedMeal }) {
+  function start({ meals = [], pickedMeal, pickedScore = null }) {
     if (!pickedMeal || !meals.length || running) return;
 
     stopTimers();
@@ -42,6 +42,14 @@ export function createRouletteController({
 
     el('rouletteStatus').textContent = STATUS_MESSAGES[0];
     el('rouletteStatus').classList.remove('is-winner-text');
+
+    el('rouletteWinnerCopy').classList.add('hidden');
+    el('rouletteWinnerName').textContent = '';
+    el('rouletteWinnerReason').textContent = '';
+
+    document.querySelector('.roulette-window')
+      ?.classList.remove('is-spotlight', 'is-pulsing');
+
     el('cancelRouletteBtn').disabled = false;
     showView('rouletteView');
 
@@ -57,7 +65,7 @@ export function createRouletteController({
         reel.style.transform =
           `translateY(-${(sequence.length - 1) * ITEM_HEIGHT}px)`;
 
-        finish(pickedMeal);
+        finish(pickedMeal, pickedScore);
         return;
       }
 
@@ -94,7 +102,7 @@ export function createRouletteController({
         }
       );
 
-      animation.onfinish = () => finish(pickedMeal);
+      animation.onfinish = () => finish(pickedMeal, pickedScore);
       animation.oncancel = () => {};
     });
   }
@@ -113,19 +121,34 @@ export function createRouletteController({
     }, STATUS_INTERVAL);
   }
 
-  function finish(pickedMeal) {
+  function finish(pickedMeal, pickedScore = null) {
     window.clearInterval(statusTimer);
     statusTimer = null;
 
     const status = el('rouletteStatus');
-    status.textContent = '🎉 מצאתי משהו מעולה!';
+    status.textContent = 'ההמלצה שלנו להיום';
     status.classList.add('is-winner-text');
 
     el('cancelRouletteBtn').disabled = true;
 
-    const finalItem = el('rouletteReel').lastElementChild;
-    finalItem?.classList.add('is-winner');
+    const reel = el('rouletteReel');
+    const finalItem = reel.lastElementChild;
+    const rouletteWindow = document.querySelector('.roulette-window');
 
+    [...reel.children].forEach(item => {
+      if (item !== finalItem) {
+        item.classList.add('is-dimmed');
+      }
+    });
+
+    finalItem?.classList.add('is-winner');
+    rouletteWindow?.classList.add('is-spotlight', 'is-pulsing');
+
+    el('rouletteWinnerName').textContent = pickedMeal.name;
+    el('rouletteWinnerReason').textContent =
+      buildReason(pickedMeal, pickedScore);
+
+    el('rouletteWinnerCopy').classList.remove('hidden');
     createConfetti();
 
     if (typeof onFeedback === 'function') {
@@ -138,7 +161,29 @@ export function createRouletteController({
       if (typeof onComplete === 'function') {
         onComplete(pickedMeal);
       }
-    }, SETTLE_DELAY);
+    }, 1650);
+  }
+
+  function buildReason(meal, pickedScore) {
+    const reasons = pickedScore?.reasons || [];
+
+    if (meal.favorite) {
+      return '❤️ אחת המנות האהובות על מעיין';
+    }
+
+    if (reasons.some(reason => reason.includes('לא נבחרה חודש'))) {
+      return '📅 הרבה זמן לא אכלתם אותה';
+    }
+
+    if (reasons.some(reason => reason.includes('טרם נבחרה'))) {
+      return '✨ הגיע הזמן לנסות אותה';
+    }
+
+    if (reasons.some(reason => reason.includes('נבחרה השבוע'))) {
+      return '⚖️ נבחרה באיזון עם הבחירות האחרונות';
+    }
+
+    return '🧠 נבחרה לפי ההעדפות וההיסטוריה שלכם';
   }
 
   function cancel() {
