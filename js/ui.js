@@ -94,17 +94,39 @@ export function createCategoryCard(category, mealCount, onClick) {
 }
 
 export function setImageWithFallback(imageElement, source, fallbackElement) {
+  const container = imageElement.closest(
+    '.image-wrap, .choice-image-wrap, .swipe-card-image, .favorite-card-image'
+  );
+
+  container?.classList.add('is-loading');
+  container?.classList.remove('is-loaded', 'has-error');
   fallbackElement?.classList.remove('hidden');
-  imageElement.classList.remove('hidden');
+  imageElement.classList.remove('hidden', 'is-loaded');
 
   if (!source) {
     imageElement.classList.add('hidden');
+    container?.classList.remove('is-loading');
+    container?.classList.add('has-error');
     return;
   }
 
+  imageElement.loading = 'lazy';
+  imageElement.decoding = 'async';
   imageElement.src = source;
-  imageElement.onload = () => fallbackElement?.classList.add('hidden');
-  imageElement.onerror = () => imageElement.classList.add('hidden');
+
+  imageElement.onload = () => {
+    imageElement.classList.add('is-loaded');
+    fallbackElement?.classList.add('hidden');
+    container?.classList.remove('is-loading', 'has-error');
+    container?.classList.add('is-loaded');
+  };
+
+  imageElement.onerror = () => {
+    imageElement.classList.add('hidden');
+    fallbackElement?.classList.remove('hidden');
+    container?.classList.remove('is-loading', 'is-loaded');
+    container?.classList.add('has-error');
+  };
 }
 
 export function renderMeta(meal) {

@@ -753,3 +753,112 @@ button:disabled,
     transform:none;
   }
 }
+
+
+/* v2.1 — Hero Images & Smart Loading */
+.image-wrap,
+.choice-image-wrap,
+.swipe-card-image,
+.favorite-card-image{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(110deg,#f6e8df 8%,#fff6f0 18%,#f6e8df 33%);
+  background-size:200% 100%;
+}
+
+.image-wrap.is-loading,
+.choice-image-wrap.is-loading,
+.swipe-card-image.is-loading,
+.favorite-card-image.is-loading{
+  animation:imageShimmer 1.35s linear infinite;
+}
+
+.image-wrap img,
+.choice-image-wrap img,
+.swipe-card-image img,
+.favorite-card-image img{
+  opacity:0;
+  transform:scale(1.025);
+  transition:
+    opacity .28s ease,
+    transform .46s cubic-bezier(.2,.8,.2,1);
+}
+
+.image-wrap img.is-loaded,
+.choice-image-wrap img.is-loaded,
+.swipe-card-image img.is-loaded,
+.favorite-card-image img.is-loaded{
+  opacity:1;
+  transform:scale(1);
+}
+
+.image-wrap.is-loaded,
+.choice-image-wrap.is-loaded,
+.swipe-card-image.is-loaded,
+.favorite-card-image.is-loaded{
+  animation:none;
+  background:#f4e3d8;
+}
+
+.image-wrap.has-error,
+.choice-image-wrap.has-error,
+.swipe-card-image.has-error,
+.favorite-card-image.has-error{
+  animation:none;
+  background:
+    radial-gradient(circle at 72% 18%,rgba(255,255,255,.5),transparent 28%),
+    linear-gradient(145deg,#f4d7c5,#df9a73);
+}
+
+.image-wrap.has-error::after,
+.choice-image-wrap.has-error::after,
+.swipe-card-image.has-error::after,
+.favorite-card-image.has-error::after{
+  content:'אין תמונה זמינה';
+  position:absolute;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.78);
+  color:#7a3d24;
+  font-size:11px;
+  font-weight:800;
+  backdrop-filter:blur(8px);
+  white-space:nowrap;
+}
+
+.choice-image-wrap{
+  aspect-ratio:16/10;
+}
+
+.swipe-card-image{
+  min-height:340px;
+}
+
+.favorite-card-image{
+  aspect-ratio:16/10;
+}
+
+@keyframes imageShimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .image-wrap.is-loading,
+  .choice-image-wrap.is-loading,
+  .swipe-card-image.is-loading,
+  .favorite-card-image.is-loading{
+    animation:none!important;
+  }
+
+  .image-wrap img,
+  .choice-image-wrap img,
+  .swipe-card-image img,
+  .favorite-card-image img{
+    transition:none!important;
+  }
+}
