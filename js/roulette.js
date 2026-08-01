@@ -2,8 +2,17 @@ import { el, showView } from './ui.js';
 import { escapeHtml, shuffleArray } from './utils.js';
 
 const ITEM_HEIGHT = 116;
-const SPIN_DURATION = 2450;
-const SETTLE_DELAY = 620;
+const SPIN_DURATION = 2650;
+const SETTLE_DELAY = 980;
+const STATUS_INTERVAL = 520;
+
+const STATUS_MESSAGES = [
+  '🧠 בודק מה לא אכלתם לאחרונה…',
+  '❤️ נותן עדיפות למועדפים…',
+  '📅 מסתכל על ההיסטוריה…',
+  '🍽️ מחפש משהו שיתאים…',
+  '✨ כמעט מצאתי…'
+];
 
 export function createRouletteController({
   onComplete,
@@ -13,13 +22,16 @@ export function createRouletteController({
 }) {
   let animation = null;
   let completionTimer = null;
+  let statusTimer = null;
   let running = false;
+  let statusIndex = 0;
 
   function start({ meals = [], pickedMeal }) {
     if (!pickedMeal || !meals.length || running) return;
 
     stopTimers();
     running = true;
+    statusIndex = 0;
 
     const sequence = buildSequence(meals, pickedMeal);
     renderSequence(sequence);
@@ -28,9 +40,12 @@ export function createRouletteController({
       onPreload(sequence.map(meal => meal.image).filter(Boolean));
     }
 
-    el('rouletteStatus').textContent = 'מערבב את המנות';
+    el('rouletteStatus').textContent = STATUS_MESSAGES[0];
+    el('rouletteStatus').classList.remove('is-winner-text');
     el('cancelRouletteBtn').disabled = false;
     showView('rouletteView');
+
+    startStatusCycle();
 
     const reel = el('rouletteReel');
     const reducedMotion = window.matchMedia(
@@ -49,13 +64,27 @@ export function createRouletteController({
       animation = reel.animate(
         [
           {
+            offset: 0,
             transform: 'translateY(0)',
             filter: 'blur(0)'
           },
           {
+            offset: .7,
+            transform:
+              `translateY(-${(sequence.length - 4) * ITEM_HEIGHT}px)`,
+            filter: 'blur(1.1px)'
+          },
+          {
+            offset: .9,
+            transform:
+              `translateY(-${(sequence.length - 2) * ITEM_HEIGHT}px)`,
+            filter: 'blur(.45px)'
+          },
+          {
+            offset: 1,
             transform:
               `translateY(-${(sequence.length - 1) * ITEM_HEIGHT}px)`,
-            filter: 'blur(.7px)'
+            filter: 'blur(0)'
           }
         ],
         {
@@ -70,12 +99,34 @@ export function createRouletteController({
     });
   }
 
+  function startStatusCycle() {
+    window.clearInterval(statusTimer);
+
+    statusTimer = window.setInterval(() => {
+      statusIndex = (statusIndex + 1) % STATUS_MESSAGES.length;
+      const status = el('rouletteStatus');
+
+      status.classList.remove('status-swap');
+      void status.offsetWidth;
+      status.textContent = STATUS_MESSAGES[statusIndex];
+      status.classList.add('status-swap');
+    }, STATUS_INTERVAL);
+  }
+
   function finish(pickedMeal) {
-    el('rouletteStatus').textContent = 'מצאתי!';
+    window.clearInterval(statusTimer);
+    statusTimer = null;
+
+    const status = el('rouletteStatus');
+    status.textContent = '🎉 מצאתי משהו מעולה!';
+    status.classList.add('is-winner-text');
+
     el('cancelRouletteBtn').disabled = true;
 
     const finalItem = el('rouletteReel').lastElementChild;
     finalItem?.classList.add('is-winner');
+
+    createConfetti();
 
     if (typeof onFeedback === 'function') {
       onFeedback();
@@ -100,6 +151,33 @@ export function createRouletteController({
     if (typeof onCancel === 'function') {
       onCancel();
     }
+  }
+
+  function createConfetti() {
+    const shell = document.querySelector('.roulette-shell');
+    if (!shell) return;
+
+    shell.querySelector('.roulette-confetti')?.remove();
+
+    const layer = document.createElement('div');
+    layer.className = 'roulette-confetti';
+    layer.setAttribute('aria-hidden', 'true');
+
+    const symbols = ['✨', '❤️', '🎉', '🍽️', '💫'];
+
+    for (let index = 0; index < 18; index += 1) {
+      const piece = document.createElement('span');
+      piece.textContent = symbols[index % symbols.length];
+      piece.style.setProperty('--x', `${Math.random() * 100}%`);
+      piece.style.setProperty('--delay', `${Math.random() * 160}ms`);
+      piece.style.setProperty('--drift', `${-55 + Math.random() * 110}px`);
+      piece.style.setProperty('--rotate', `${-90 + Math.random() * 180}deg`);
+      layer.appendChild(piece);
+    }
+
+    shell.appendChild(layer);
+
+    window.setTimeout(() => layer.remove(), 1250);
   }
 
   function renderSequence(sequence) {
@@ -138,7 +216,7 @@ export function createRouletteController({
     const pool = meals.filter(meal => meal.id !== pickedMeal.id);
     const sequence = [];
 
-    for (let index = 0; index < 18; index += 1) {
+    for (let index = 0; index < 20; index += 1) {
       const source = pool.length
         ? pool[index % pool.length]
         : pickedMeal;
@@ -151,7 +229,9 @@ export function createRouletteController({
 
   function stopTimers() {
     window.clearTimeout(completionTimer);
+    window.clearInterval(statusTimer);
     completionTimer = null;
+    statusTimer = null;
   }
 
   el('cancelRouletteBtn').addEventListener('click', cancel);
