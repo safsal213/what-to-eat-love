@@ -8,7 +8,8 @@ export function createSwipeController({
   getBusy,
   setBusy,
   onChoose,
-  onToggleFavorite
+  onToggleFavorite,
+  onSwipeFeedback
 }) {
   function render() {
     const deck = el('swipeDeck');
@@ -172,7 +173,13 @@ export function createSwipeController({
       card.classList.remove('is-dragging');
 
       if (Math.abs(currentX) >= 95) {
-        swipe(currentX > 0 ? 'right' : 'left', meal, card);
+        const direction = currentX > 0 ? 'right' : 'left';
+
+        if (typeof onSwipeFeedback === 'function') {
+          onSwipeFeedback(direction);
+        }
+
+        swipe(direction, meal, card);
         return;
       }
 
