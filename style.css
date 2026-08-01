@@ -1046,3 +1046,181 @@ button:disabled,
     opacity:0;
   }
 }
+
+
+/* v2.3 — Dynamic Mesh Background */
+html{
+  min-height:100%;
+  background:var(--color-bg);
+}
+
+body{
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,248,242,.96) 0%,
+      rgba(255,255,255,.98) 48%,
+      rgba(255,249,245,.98) 100%
+    );
+}
+
+body::before,
+body::after{
+  content:'';
+  position:fixed;
+  z-index:-2;
+  pointer-events:none;
+  border-radius:50%;
+  filter:blur(18px);
+  opacity:.42;
+  will-change:transform;
+}
+
+body::before{
+  width:54vw;
+  height:54vw;
+  min-width:280px;
+  min-height:280px;
+  max-width:620px;
+  max-height:620px;
+  top:-12vw;
+  right:-18vw;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,187,145,.72) 0%,
+      rgba(255,211,181,.42) 42%,
+      rgba(255,255,255,0) 72%
+    );
+  animation:meshFloatOne 18s ease-in-out infinite alternate;
+}
+
+body::after{
+  width:58vw;
+  height:58vw;
+  min-width:300px;
+  min-height:300px;
+  max-width:680px;
+  max-height:680px;
+  left:-24vw;
+  bottom:-18vw;
+  background:
+    radial-gradient(
+      circle,
+      rgba(239,174,190,.54) 0%,
+      rgba(255,217,198,.32) 44%,
+      rgba(255,255,255,0) 72%
+    );
+  animation:meshFloatTwo 22s ease-in-out infinite alternate;
+}
+
+.app-shell::before{
+  content:'';
+  position:fixed;
+  z-index:-1;
+  pointer-events:none;
+  width:46vw;
+  height:46vw;
+  min-width:240px;
+  min-height:240px;
+  max-width:520px;
+  max-height:520px;
+  top:38%;
+  left:48%;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,228,181,.28) 0%,
+      rgba(255,244,225,.16) 48%,
+      rgba(255,255,255,0) 74%
+    );
+  filter:blur(24px);
+  opacity:.7;
+  animation:meshPulse 20s ease-in-out infinite;
+}
+
+.topbar{
+  background:rgba(255,248,242,.78);
+  border-bottom:1px solid rgba(122,61,36,.06);
+  box-shadow:0 10px 30px rgba(82,42,26,.045);
+  backdrop-filter:blur(22px) saturate(1.12);
+  -webkit-backdrop-filter:blur(22px) saturate(1.12);
+}
+
+.choice-card,
+.status-card,
+.role-card,
+.haim-card,
+.food-card,
+.category-card,
+.favorite-card{
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+
+@keyframes meshFloatOne{
+  0%{
+    transform:translate3d(0,0,0) scale(1);
+  }
+  50%{
+    transform:translate3d(-5vw,4vh,0) scale(1.08);
+  }
+  100%{
+    transform:translate3d(2vw,9vh,0) scale(.96);
+  }
+}
+
+@keyframes meshFloatTwo{
+  0%{
+    transform:translate3d(0,0,0) scale(.96);
+  }
+  50%{
+    transform:translate3d(7vw,-5vh,0) scale(1.06);
+  }
+  100%{
+    transform:translate3d(3vw,-10vh,0) scale(1);
+  }
+}
+
+@keyframes meshPulse{
+  0%,100%{
+    transform:translate(-50%,-50%) scale(.92);
+    opacity:.5;
+  }
+  50%{
+    transform:translate(-50%,-50%) scale(1.1);
+    opacity:.82;
+  }
+}
+
+@media(max-width:480px){
+  body::before{
+    top:-110px;
+    right:-150px;
+  }
+
+  body::after{
+    left:-170px;
+    bottom:-130px;
+  }
+
+  .app-shell::before{
+    top:46%;
+    width:380px;
+    height:380px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body::before,
+  body::after,
+  .app-shell::before{
+    animation:none!important;
+  }
+}
