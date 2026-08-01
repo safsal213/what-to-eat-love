@@ -44,16 +44,39 @@ const swipeController = createSwipeController({
     state.swipeBusy = value;
   },
   onChoose: meal => openMeal(meal),
-  onToggleFavorite: meal => handleToggleFavorite(meal)
+  onToggleFavorite: meal => handleToggleFavorite(meal),
+  onSwipeFeedback: direction => {
+    triggerHaptic(direction === 'right' ? [12, 35, 16] : 8);
+  }
 });
 
 let toastTimer = null;
+
+function triggerHaptic(pattern = 10) {
+  if (!('vibrate' in navigator)) return;
+
+  try {
+    navigator.vibrate(pattern);
+  } catch (error) {
+    console.debug('Haptic unavailable:', error);
+  }
+}
 
 function showToast(message, type = 'info') {
   const toast = el('appToast');
 
   window.clearTimeout(toastTimer);
-  toast.textContent = message;
+  const icon =
+    type === 'success'
+      ? '❤️'
+      : type === 'error'
+        ? '⚠️'
+        : '✨';
+
+  toast.innerHTML = `
+    <span class="app-toast-icon" aria-hidden="true">${icon}</span>
+    <span>${message}</span>
+  `;
   toast.dataset.type = type;
   toast.classList.remove('hidden', 'is-visible');
 
@@ -223,7 +246,19 @@ async function handleToggleFavorite(meal, options = {}) {
 
   const previousValue = meal.favorite;
   meal.favorite = !meal.favorite;
+
+  triggerHaptic(meal.favorite ? [12, 40, 18] : 10);
   updateFavoriteViews(options);
+
+  requestAnimationFrame(() => {
+    document
+      .querySelectorAll(`[data-meal-id="${meal.id}"] .swipe-favorite, [data-meal-id="${meal.id}"] .favorite-toggle`)
+      .forEach(button => {
+        button.classList.remove('heart-pop');
+        void button.offsetWidth;
+        button.classList.add('heart-pop');
+      });
+  });
 
   try {
     const result = await toggleFavorite(meal, 'מעיין');
@@ -440,11 +475,13 @@ el('closeSmartDebugBtn')?.addEventListener('click', () => {
 
 el('skipMealBtn').addEventListener('click', () => {
   const meal = state.swipeMeals[state.swipeIndex];
+  triggerHaptic(8);
   swipeController.swipe('left', meal);
 });
 
 el('chooseMealBtn').addEventListener('click', () => {
   const meal = state.swipeMeals[state.swipeIndex];
+  triggerHaptic([12, 35, 16]);
   swipeController.swipe('right', meal);
 });
 
