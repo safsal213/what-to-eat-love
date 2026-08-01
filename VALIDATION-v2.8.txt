@@ -1,0 +1,10 @@
+api.js: OK
+app.js: OK
+data.js: OK
+favorites.js: OK
+roulette.js: OK
+smartShuffle.js: OK
+storage.js: OK
+swipe.js: OK
+ui.js: OK
+utils.js: OK

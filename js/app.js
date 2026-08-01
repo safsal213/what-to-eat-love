@@ -35,7 +35,17 @@ const state = {
 };
 
 const rouletteController = createRouletteController({
-  onComplete: meal => openMeal(meal),
+  onComplete: meal => {
+    document.documentElement.classList.add('roulette-morphing');
+
+    window.setTimeout(() => {
+      openMeal(meal);
+
+      window.setTimeout(() => {
+        document.documentElement.classList.remove('roulette-morphing');
+      }, 420);
+    }, 90);
+  },
   onCancel: () => showView('categoriesView', { direction: 'back' }),
   onPreload: sources => preloadImages(sources),
   onFeedback: () => triggerHaptic([16, 45, 24])
@@ -333,7 +343,8 @@ function openRandomMeal(meals) {
   if (picked?.meal) {
     rouletteController.start({
       meals,
-      pickedMeal: picked.meal
+      pickedMeal: picked.meal,
+      pickedScore: picked
     });
   }
 }

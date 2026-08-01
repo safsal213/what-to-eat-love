@@ -144,9 +144,17 @@
           <div id="rouletteReel" class="roulette-reel"></div>
         </div>
 
-        <p id="rouletteStatus" class="roulette-status">
-          מערבב את המנות
-        </p>
+        <div id="rouletteReveal" class="roulette-reveal" aria-live="polite">
+          <p id="rouletteStatus" class="roulette-status">
+            מערבב את המנות
+          </p>
+
+          <div id="rouletteWinnerCopy" class="roulette-winner-copy hidden">
+            <p class="roulette-winner-kicker">🧠 Smart Shuffle בחר בשבילכם</p>
+            <h3 id="rouletteWinnerName"></h3>
+            <p id="rouletteWinnerReason" class="roulette-winner-reason"></p>
+          </div>
+        </div>
 
         <button
           id="cancelRouletteBtn"
