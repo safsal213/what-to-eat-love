@@ -74,10 +74,34 @@
             <span>❤️</span>
             <small>המועדפים שלי</small>
           </button>
+          <button id="openJournalBtn" class="journal-entry-btn" type="button" aria-label="יומן הארוחות">
+            <span>📖</span>
+            <small>יומן הארוחות</small>
+          </button>
           <span class="categories-sparkle" aria-hidden="true">✨</span>
         </div>
       </div>
       <div id="categoriesGrid" class="category-grid"></div>
+    </section>
+
+
+    <section id="journalView" class="hidden">
+      <div class="journal-heading">
+        <div>
+          <p class="eyebrow">הבחירות שלכם לאורך הזמן</p>
+          <h2>יומן הארוחות 📖</h2>
+        </div>
+        <span id="journalCount" class="journal-count">0 ארוחות</span>
+      </div>
+
+      <div id="journalList" class="journal-list"></div>
+
+      <section id="journalEmpty" class="journal-empty hidden">
+        <div class="status-emoji">🍽️</div>
+        <h2>עוד אין ארוחות ביומן</h2>
+        <p>אחרי שמעיין תבחר מנה, היא תופיע כאן אוטומטית.</p>
+        <button id="journalHomeBtn" class="primary-btn" type="button">לבחירת מנות</button>
+      </section>
     </section>
 
     <section id="favoritesView" class="hidden">
