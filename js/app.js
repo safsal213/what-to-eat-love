@@ -1,4 +1,4 @@
-import { fetchAppData, fetchLatestSelection, saveSelection, toggleFavorite } from './api.js';
+import { fetchAppData, fetchLatestSelection, fetchSelectionHistory, saveSelection, toggleFavorite } from './api.js';
 import { normalizeAppData } from './data.js';
 import {
   saveCachedData,
@@ -11,6 +11,7 @@ import {
 } from './storage.js';
 import { el, showView, createCard, createCategoryCard, setImageWithFallback, renderMeta, showError } from './ui.js';
 import { shuffleArray } from './utils.js';
+import { scoreMeals, pickWeightedMeal } from './smartShuffle.js';
 import { createSwipeController } from './swipe.js';
 import { renderFavoritesScreen } from './favorites.js';
 
@@ -26,7 +27,10 @@ const state = {
   swipeMeals: [],
   swipeIndex: 0,
   swipeBusy: false,
-  previousView: null
+  previousView: null,
+  selectionHistory: [],
+  smartScores: [],
+  debugMode: new URLSearchParams(window.location.search).get('debug') === '1'
 };
 
 const swipeController = createSwipeController({
@@ -76,7 +80,15 @@ async function startApp() {
 
   showView('loadingView');
   try {
-    const rawData = await fetchAppData();
+    const [rawData, selectionHistory] = await Promise.all([
+      fetchAppData(),
+      fetchSelectionHistory().catch(error => {
+        console.warn('Selection history unavailable:', error);
+        return [];
+      })
+    ]);
+
+    state.selectionHistory = selectionHistory;
     applyData(normalizeAppData(rawData));
     saveCachedData(rawData);
   } catch (error) {
@@ -246,7 +258,48 @@ function updateFavoriteViews(options = {}) {
 }
 
 function openRandomMeal(meals) {
-  if (meals.length) openMeal(meals[Math.floor(Math.random() * meals.length)]);
+  if (!meals.length) return;
+
+  const scored = scoreMeals(
+    meals,
+    state.selectionHistory,
+    new Date()
+  );
+
+  state.smartScores = scored;
+  const picked = pickWeightedMeal(scored);
+
+  if (state.debugMode) {
+    renderSmartDebug(scored, picked);
+  }
+
+  if (picked?.meal) {
+    openMeal(picked.meal);
+  }
+}
+
+function renderSmartDebug(scoredMeals, picked) {
+  const panel = el('smartDebugPanel');
+  const content = el('smartDebugContent');
+
+  content.innerHTML = scoredMeals.map(item => {
+    const pickedClass =
+      picked?.meal?.id === item.meal.id
+        ? ' is-picked'
+        : '';
+
+    return `
+      <article class="smart-debug-row${pickedClass}">
+        <div class="smart-debug-title">
+          <strong>${item.meal.name}</strong>
+          <span>${item.score}</span>
+        </div>
+        <small>${item.reasons.join(' • ')}</small>
+      </article>
+    `;
+  }).join('');
+
+  panel.classList.remove('hidden');
 }
 
 function openMeal(meal) {
@@ -269,7 +322,15 @@ async function confirmSelection() {
 
   try {
     const result = await saveSelection(meal);
-    saveLatestSelection(result.selection || { ...meal, selectedAt: new Date().toISOString(), selectedBy: 'מעיין' });
+    const savedSelection = result.selection || {
+      MealID: meal.id,
+      MealName: meal.name,
+      User: 'מעיין',
+      Date: new Date().toISOString()
+    };
+
+    saveLatestSelection(savedSelection);
+    state.selectionHistory.push(savedSelection);
     el('successText').textContent = `מעולה ❤️ בחרת ${meal.name}`;
     showView('successView');
   } catch (error) {
@@ -373,6 +434,10 @@ el('confirmBtn').addEventListener('click', confirmSelection);
 el('homeBtn').addEventListener('click', () => { state.previousView = null; showView('categoriesView'); });
 el('retryBtn').addEventListener('click', startApp);
 
+el('closeSmartDebugBtn')?.addEventListener('click', () => {
+  el('smartDebugPanel').classList.add('hidden');
+});
+
 el('skipMealBtn').addEventListener('click', () => {
   const meal = state.swipeMeals[state.swipeIndex];
   swipeController.swipe('left', meal);
@@ -384,9 +449,29 @@ el('chooseMealBtn').addEventListener('click', () => {
 });
 
 el('shuffleDeckBtn').addEventListener('click', () => {
-  state.swipeMeals = shuffleArray(state.swipeMeals);
+  const scored = scoreMeals(
+    state.swipeMeals,
+    state.selectionHistory,
+    new Date()
+  );
+
+  state.smartScores = scored;
+
+  state.swipeMeals = scored
+    .map(item => ({
+      meal: item.meal,
+      sortKey: item.score + Math.random() * 35
+    }))
+    .sort((a, b) => b.sortKey - a.sortKey)
+    .map(item => item.meal);
+
   state.swipeIndex = 0;
   state.swipeBusy = false;
+
+  if (state.debugMode) {
+    renderSmartDebug(scored, null);
+  }
+
   swipeController.render();
 });
 

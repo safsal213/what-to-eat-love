@@ -109,3 +109,18 @@ export async function toggleFavorite(meal, user = 'מעיין') {
 
   return data.favorite;
 }
+
+
+export async function fetchSelectionHistory(limit = 200) {
+  const response = await fetch(
+    `${API_URL}?action=selectionHistory&limit=${encodeURIComponent(limit)}&_=${Date.now()}`,
+    {
+      method: 'GET',
+      redirect: 'follow',
+      cache: 'no-store'
+    }
+  );
+
+  const data = await readJson(response);
+  return Array.isArray(data.selections) ? data.selections : [];
+}
