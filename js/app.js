@@ -115,7 +115,7 @@ async function startApp() {
     return;
   }
 
-  showView('loadingView');
+  showView('loadingView', { instant: true });
   try {
     const [rawData, selectionHistory] = await Promise.all([
       fetchAppData(),
@@ -534,13 +534,13 @@ el('backBtn').addEventListener('click', () => {
   if (choiceViewOpen && state.previousView === 'favoritesView') {
     state.selectedMeal = null;
     refreshFavoritesView();
-    showView('favoritesView');
+    showView('favoritesView', { direction: 'back' });
     return;
   }
 
   if (favoritesViewOpen) {
     state.previousView = null;
-    showView('categoriesView');
+    showView('categoriesView', { direction: 'back' });
     return;
   }
 
@@ -548,7 +548,7 @@ el('backBtn').addEventListener('click', () => {
     state.swipeBusy = false;
     state.selectedMeal = null;
     swipeController.render();
-    showView('mealsView');
+    showView('mealsView', { direction: 'back' });
     return;
   }
 
@@ -557,7 +557,7 @@ el('backBtn').addEventListener('click', () => {
     state.swipeMeals = [];
     state.swipeIndex = 0;
     state.swipeBusy = false;
-    showView('categoriesView');
+    showView('categoriesView', { direction: 'back' });
     return;
   }
 

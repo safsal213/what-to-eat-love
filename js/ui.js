@@ -12,13 +12,96 @@ const VIEW_IDS = [
 
 export const el = id => document.getElementById(id);
 
-export function showView(viewId) {
-  VIEW_IDS.forEach(id => el(id).classList.toggle('hidden', id !== viewId));
+let activeViewId = null;
+let transitionTimer = null;
+
+export function showView(viewId, options = {}) {
+  const {
+    direction = 'forward',
+    instant = false
+  } = options;
+
+  const nextView = el(viewId);
+  const previousView = activeViewId ? el(activeViewId) : null;
+  const reducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  window.clearTimeout(transitionTimer);
+
+  VIEW_IDS.forEach(id => {
+    const view = el(id);
+
+    if (id !== viewId && view !== previousView) {
+      view.classList.add('hidden');
+      view.classList.remove(
+        'view-enter',
+        'view-enter-back',
+        'view-exit',
+        'view-exit-back'
+      );
+    }
+  });
+
+  const finishTransition = () => {
+    if (previousView && previousView !== nextView) {
+      previousView.classList.add('hidden');
+      previousView.classList.remove(
+        'view-exit',
+        'view-exit-back'
+      );
+    }
+
+    nextView.classList.remove(
+      'view-enter',
+      'view-enter-back'
+    );
+  };
+
+  nextView.classList.remove('hidden');
+
+  if (
+    !instant &&
+    !reducedMotion &&
+    previousView &&
+    previousView !== nextView
+  ) {
+    previousView.classList.remove(
+      'view-enter',
+      'view-enter-back'
+    );
+
+    previousView.classList.add(
+      direction === 'back'
+        ? 'view-exit-back'
+        : 'view-exit'
+    );
+
+    nextView.classList.add(
+      direction === 'back'
+        ? 'view-enter-back'
+        : 'view-enter'
+    );
+
+    transitionTimer = window.setTimeout(
+      finishTransition,
+      330
+    );
+  } else {
+    finishTransition();
+  }
+
+  activeViewId = viewId;
+
   el('backBtn').classList.toggle(
     'hidden',
     ['loadingView', 'errorView', 'categoriesView', 'successView', 'roleView', 'haimView'].includes(viewId)
   );
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  window.scrollTo({
+    top: 0,
+    behavior: reducedMotion ? 'auto' : 'smooth'
+  });
 }
 
 export function createCard(item, onClick) {

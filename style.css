@@ -862,3 +862,187 @@ button:disabled,
     transition:none!important;
   }
 }
+
+
+/* v2.2 — Premium Motion */
+.app-shell{
+  position:relative;
+  overflow:hidden;
+}
+
+.app-shell > section{
+  position:relative;
+  transform-origin:50% 24%;
+  will-change:transform,opacity,filter;
+}
+
+.view-enter{
+  animation:viewEnterForward .32s cubic-bezier(.2,.82,.2,1) both;
+}
+
+.view-enter-back{
+  animation:viewEnterBack .32s cubic-bezier(.2,.82,.2,1) both;
+}
+
+.view-exit{
+  position:absolute!important;
+  inset:20px 16px auto;
+  width:calc(100% - 32px);
+  pointer-events:none;
+  animation:viewExitForward .27s cubic-bezier(.4,0,.6,1) both;
+}
+
+.view-exit-back{
+  position:absolute!important;
+  inset:20px 16px auto;
+  width:calc(100% - 32px);
+  pointer-events:none;
+  animation:viewExitBack .27s cubic-bezier(.4,0,.6,1) both;
+}
+
+@keyframes viewEnterForward{
+  from{
+    opacity:0;
+    transform:translateX(-18px) scale(.985);
+    filter:blur(3px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    filter:blur(0);
+  }
+}
+
+@keyframes viewExitForward{
+  from{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    filter:blur(0);
+  }
+  to{
+    opacity:0;
+    transform:translateX(18px) scale(.99);
+    filter:blur(2px);
+  }
+}
+
+@keyframes viewEnterBack{
+  from{
+    opacity:0;
+    transform:translateX(18px) scale(.985);
+    filter:blur(3px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    filter:blur(0);
+  }
+}
+
+@keyframes viewExitBack{
+  from{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    filter:blur(0);
+  }
+  to{
+    opacity:0;
+    transform:translateX(-18px) scale(.99);
+    filter:blur(2px);
+  }
+}
+
+.view-enter .section-heading,
+.view-enter .swipe-heading,
+.view-enter .categories-intro,
+.view-enter .favorites-toolbar,
+.view-enter-back .section-heading,
+.view-enter-back .swipe-heading,
+.view-enter-back .categories-intro,
+.view-enter-back .favorites-toolbar{
+  animation:motionTitleIn .34s .04s cubic-bezier(.2,.82,.2,1) both;
+}
+
+.view-enter .choice-card,
+.view-enter .status-card,
+.view-enter .swipe-deck,
+.view-enter .category-grid,
+.view-enter .favorites-grid,
+.view-enter .role-card,
+.view-enter .haim-card,
+.view-enter-back .choice-card,
+.view-enter-back .status-card,
+.view-enter-back .swipe-deck,
+.view-enter-back .category-grid,
+.view-enter-back .favorites-grid,
+.view-enter-back .role-card,
+.view-enter-back .haim-card{
+  animation:motionContentIn .38s .07s cubic-bezier(.2,.82,.2,1) both;
+}
+
+@keyframes motionTitleIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes motionContentIn{
+  from{
+    opacity:0;
+    transform:translateY(12px) scale(.992);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+#successView.view-enter .success-icon{
+  animation:successIconPremium .55s .08s cubic-bezier(.2,.9,.25,1.35) both;
+}
+
+@keyframes successIconPremium{
+  0%{
+    opacity:0;
+    transform:scale(.5) rotate(-10deg);
+  }
+  60%{
+    opacity:1;
+    transform:scale(1.12) rotate(3deg);
+  }
+  100%{
+    opacity:1;
+    transform:scale(1) rotate(0);
+  }
+}
+
+.topbar{
+  transition:
+    background .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .view-enter,
+  .view-enter-back,
+  .view-exit,
+  .view-exit-back,
+  .view-enter *,
+  .view-enter-back *,
+  #successView.view-enter .success-icon{
+    animation:none!important;
+    filter:none!important;
+    transform:none!important;
+  }
+
+  .view-exit,
+  .view-exit-back{
+    opacity:0;
+  }
+}
