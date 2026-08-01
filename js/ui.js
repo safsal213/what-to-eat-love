@@ -4,6 +4,7 @@ const VIEW_IDS = [
   'categoriesView',
   'favoritesView',
   'mealsView',
+  'rouletteView',
   'choiceView',
   'successView',
   'roleView',
@@ -95,7 +96,7 @@ export function showView(viewId, options = {}) {
 
   el('backBtn').classList.toggle(
     'hidden',
-    ['loadingView', 'errorView', 'categoriesView', 'successView', 'roleView', 'haimView'].includes(viewId)
+    ['loadingView', 'errorView', 'categoriesView', 'rouletteView', 'successView', 'roleView', 'haimView'].includes(viewId)
   );
 
   window.scrollTo({

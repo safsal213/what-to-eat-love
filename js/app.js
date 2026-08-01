@@ -13,6 +13,7 @@ import { el, showView, createCard, createCategoryCard, setImageWithFallback, ren
 import { shuffleArray } from './utils.js';
 import { scoreMeals, pickWeightedMeal } from './smartShuffle.js';
 import { createSwipeController } from './swipe.js';
+import { createRouletteController } from './roulette.js';
 import { renderFavoritesScreen } from './favorites.js';
 
 const state = {
@@ -32,6 +33,13 @@ const state = {
   smartScores: [],
   debugMode: new URLSearchParams(window.location.search).get('debug') === '1'
 };
+
+const rouletteController = createRouletteController({
+  onComplete: meal => openMeal(meal),
+  onCancel: () => showView('categoriesView', { direction: 'back' }),
+  onPreload: sources => preloadImages(sources),
+  onFeedback: () => triggerHaptic([16, 45, 24])
+});
 
 const swipeController = createSwipeController({
   getMeals: () => state.swipeMeals,
@@ -323,7 +331,10 @@ function openRandomMeal(meals) {
   }
 
   if (picked?.meal) {
-    openMeal(picked.meal);
+    rouletteController.start({
+      meals,
+      pickedMeal: picked.meal
+    });
   }
 }
 
