@@ -1515,3 +1515,183 @@ body::after{
     padding:22px;
   }
 }
+
+
+/* v2.5 — Mobile Finish & Accessibility */
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  scroll-behavior:smooth;
+  overscroll-behavior-y:none;
+}
+
+body{
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overscroll-behavior-y:none;
+}
+
+button,
+[role="button"],
+a{
+  touch-action:manipulation;
+}
+
+button,
+.primary-btn,
+.secondary-btn,
+.role-btn,
+.header-icon-btn,
+.icon-btn,
+.swipe-action,
+.shuffle-deck-btn,
+.favorites-entry-btn,
+.swipe-favorite,
+.favorite-toggle{
+  min-width:44px;
+  min-height:44px;
+}
+
+button{
+  font:inherit;
+}
+
+img{
+  -webkit-user-drag:none;
+  user-select:none;
+}
+
+.topbar{
+  padding-left:max(16px,env(safe-area-inset-left));
+  padding-right:max(16px,env(safe-area-inset-right));
+}
+
+.app-shell{
+  padding-left:max(15px,env(safe-area-inset-left));
+  padding-right:max(15px,env(safe-area-inset-right));
+  padding-bottom:max(
+    calc(30px + env(safe-area-inset-bottom)),
+    34px
+  );
+}
+
+.swipe-actions{
+  position:sticky;
+  bottom:max(10px,env(safe-area-inset-bottom));
+  z-index:4;
+  padding:6px;
+  margin-inline:-6px;
+  border-radius:24px;
+  background:rgba(255,248,242,.72);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.primary-btn,
+.swipe-action.choose{
+  color:#fff;
+  text-shadow:0 1px 1px rgba(70,25,12,.14);
+}
+
+.eyebrow,
+.category-content p,
+.swipe-card-description,
+.favorite-card-content p,
+.empty-message{
+  line-height:1.45;
+}
+
+.meta-pill,
+.category-count,
+.swipe-counter,
+.haim-updated,
+#haimSelectionTime{
+  line-height:1.2;
+}
+
+.food-card,
+.category-card,
+.favorite-card,
+.choice-card,
+.status-card,
+.role-card,
+.haim-card,
+.swipe-card{
+  contain:layout paint;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible{
+  scroll-margin:20px;
+}
+
+::selection{
+  background:rgba(200,95,59,.22);
+  color:var(--color-text);
+}
+
+@media(max-width:390px){
+  .app-shell{
+    padding-left:max(12px,env(safe-area-inset-left));
+    padding-right:max(12px,env(safe-area-inset-right));
+  }
+
+  .swipe-actions{
+    bottom:max(7px,env(safe-area-inset-bottom));
+  }
+}
+
+@media(prefers-contrast:more){
+  :root{
+    --color-text:#21120d;
+    --color-text-muted:#5e4b43;
+  }
+
+  .meta-pill,
+  .category-count,
+  .swipe-counter,
+  .haim-updated,
+  #haimSelectionTime{
+    border:1px solid rgba(122,61,36,.28);
+  }
+
+  .primary-btn,
+  .swipe-action.choose{
+    background:#a93f28;
+  }
+}
+
+@media(prefers-reduced-transparency:reduce){
+  .topbar,
+  .swipe-actions,
+  .choice-card,
+  .status-card,
+  .role-card,
+  .haim-card,
+  .food-card,
+  .category-card,
+  .favorite-card{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    background:#fff!important;
+  }
+}
+
+@media(forced-colors:active){
+  button,
+  .primary-btn,
+  .secondary-btn,
+  .role-btn,
+  .swipe-action,
+  .category-card,
+  .favorite-card{
+    border:1px solid ButtonText;
+  }
+
+  .meta-pill,
+  .category-count,
+  .swipe-counter{
+    border:1px solid CanvasText;
+  }
+}
