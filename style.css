@@ -1224,3 +1224,294 @@ body::after{
     animation:none!important;
   }
 }
+
+
+/* v2.4 — Layout Polish */
+.topbar{
+  min-height:auto;
+  padding:
+    calc(11px + env(safe-area-inset-top))
+    16px
+    10px;
+}
+
+.topbar h1{
+  font-size:22px;
+  line-height:1.08;
+  letter-spacing:-.02em;
+}
+
+.topbar .eyebrow{
+  margin-bottom:2px;
+  font-size:12px;
+}
+
+.header-user-avatar,
+.header-icon-btn,
+.icon-btn{
+  width:40px;
+  height:40px;
+  border-radius:15px;
+}
+
+.app-shell{
+  padding:
+    16px
+    15px
+    calc(30px + env(safe-area-inset-bottom));
+}
+
+.categories-intro{
+  margin:0 2px 15px;
+}
+
+.categories-intro h2{
+  font-size:25px;
+}
+
+.category-grid{
+  gap:14px;
+}
+
+.category-card{
+  border-radius:23px;
+}
+
+.category-visual{
+  aspect-ratio:1.5/1;
+}
+
+.category-content{
+  min-height:78px;
+  padding:12px 13px 13px;
+}
+
+.category-content h3{
+  font-size:19px;
+}
+
+.swipe-heading{
+  margin-bottom:11px;
+}
+
+.swipe-heading h2{
+  font-size:27px;
+}
+
+.swipe-deck{
+  min-height:min(62vh,545px);
+  margin-bottom:14px;
+}
+
+.swipe-card{
+  border-radius:27px;
+}
+
+.swipe-card-image{
+  min-height:350px;
+  flex-basis:65%;
+}
+
+.swipe-card-body{
+  padding:16px 17px 18px;
+}
+
+.swipe-card-title-row h3{
+  font-size:26px;
+  letter-spacing:-.025em;
+}
+
+.swipe-card-description{
+  margin:7px 0 12px;
+  line-height:1.42;
+}
+
+.swipe-actions{
+  gap:10px;
+}
+
+.swipe-action{
+  min-height:61px;
+  border-radius:20px;
+}
+
+.choice-card{
+  padding:15px;
+  border-radius:25px;
+}
+
+.choice-image-wrap{
+  margin-bottom:14px;
+  border-radius:19px;
+  aspect-ratio:16/9;
+}
+
+.choice-card h2{
+  margin-bottom:6px;
+  font-size:25px;
+  letter-spacing:-.025em;
+}
+
+.choice-card p:not(.eyebrow){
+  margin-bottom:12px;
+}
+
+.meta-row{
+  gap:7px;
+  margin:11px 0 14px;
+}
+
+.meta-pill{
+  padding:7px 10px;
+  border:1px solid rgba(200,95,59,.12);
+}
+
+.favorites-toolbar{
+  align-items:flex-end;
+  margin-bottom:14px;
+}
+
+.favorites-toolbar h2{
+  margin-bottom:3px;
+  font-size:26px;
+}
+
+.favorites-toolbar::after{
+  content:'המנות שמעיין הכי אוהבת';
+  display:block;
+  margin-top:3px;
+  color:var(--color-text-muted);
+  font-size:13px;
+}
+
+.favorites-grid{
+  gap:14px;
+}
+
+.favorite-card{
+  border-radius:22px;
+}
+
+.favorite-card-image{
+  aspect-ratio:16/9;
+}
+
+.favorite-card-content{
+  padding:12px 13px 14px;
+}
+
+.favorite-card-content h3{
+  font-size:18px;
+}
+
+.status-card,
+.role-card,
+.haim-card{
+  border-radius:25px;
+}
+
+.haim-card{
+  padding:16px;
+}
+
+.haim-card img,
+.haim-selection-image{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:19px;
+  margin-bottom:14px;
+}
+
+.haim-card h2,
+#haimMealName{
+  margin-bottom:6px;
+  font-size:27px;
+  letter-spacing:-.025em;
+}
+
+.haim-updated,
+#haimSelectionTime{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:12px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,241,233,.92);
+  color:var(--color-primary-dark);
+  font-size:12px;
+  font-weight:800;
+}
+
+.primary-btn{
+  min-height:51px;
+  border-radius:15px;
+}
+
+.secondary-btn{
+  border-radius:14px;
+}
+
+.success-card,
+#successView.status-card{
+  padding:32px 20px;
+}
+
+.success-icon{
+  width:68px;
+  height:68px;
+  margin-bottom:15px;
+}
+
+.empty-message{
+  padding:24px 14px;
+}
+
+@media(max-width:390px){
+  .topbar h1{
+    font-size:20px;
+  }
+
+  .app-shell{
+    padding-inline:12px;
+  }
+
+  .category-grid,
+  .favorites-grid{
+    gap:11px;
+  }
+
+  .category-content{
+    min-height:74px;
+    padding:10px 11px 12px;
+  }
+
+  .category-content h3{
+    font-size:17px;
+  }
+
+  .swipe-deck{
+    min-height:520px;
+  }
+
+  .swipe-card-image{
+    min-height:315px;
+  }
+
+  .swipe-card-title-row h3{
+    font-size:24px;
+  }
+}
+
+@media(min-width:700px){
+  .app-shell{
+    padding-top:22px;
+  }
+
+  .choice-card,
+  .haim-card,
+  .status-card{
+    padding:22px;
+  }
+}
