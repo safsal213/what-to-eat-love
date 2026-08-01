@@ -128,6 +128,36 @@
       <p id="emptyMeals" class="empty-message hidden">אין כרגע מנות בקטגוריה הזאת.</p>
     </section>
 
+
+    <section id="rouletteView" class="roulette-view hidden" aria-live="polite">
+      <div class="roulette-shell">
+        <div class="roulette-brand">
+          <span class="roulette-brain" aria-hidden="true">🧠</span>
+          <div>
+            <p class="eyebrow">Smart Shuffle</p>
+            <h2>בוחר משהו טעים…</h2>
+          </div>
+        </div>
+
+        <div class="roulette-window" aria-label="רולטת מנות">
+          <div class="roulette-focus" aria-hidden="true"></div>
+          <div id="rouletteReel" class="roulette-reel"></div>
+        </div>
+
+        <p id="rouletteStatus" class="roulette-status">
+          מערבב את המנות
+        </p>
+
+        <button
+          id="cancelRouletteBtn"
+          class="secondary-btn roulette-cancel"
+          type="button"
+        >
+          ביטול
+        </button>
+      </div>
+    </section>
+
     <section id="choiceView" class="hidden">
       <article class="choice-card">
         <p class="eyebrow">הבחירה של מעיין</p>
