@@ -9,7 +9,8 @@ export function createSwipeController({
   setBusy,
   onChoose,
   onToggleFavorite,
-  onSwipeFeedback
+  onSwipeFeedback,
+  onPreload
 }) {
   function render() {
     const deck = el('swipeDeck');
@@ -19,6 +20,10 @@ export function createSwipeController({
     const index = getIndex();
     const remaining = meals.slice(index, index + 3);
     const total = meals.length;
+
+    if (typeof onPreload === 'function') {
+      onPreload(remaining.slice(1).map(item => item.image).filter(Boolean));
+    }
     const current = Math.min(index + 1, total);
 
     el('swipeCounter').textContent = total
@@ -76,7 +81,7 @@ export function createSwipeController({
     }
 
     card.innerHTML = `
-      <div class="swipe-card-image">
+      <div class="swipe-card-image is-loading">
         <span class="swipe-card-emoji">${escapeHtml(meal.emoji || '🍽️')}</span>
         ${meal.image ? `<img src="${escapeHtml(meal.image)}" alt="">` : ''}
         <span class="swipe-card-stamp like">בא לי!</span>
@@ -110,7 +115,24 @@ export function createSwipeController({
     const favoriteButton = card.querySelector('.swipe-favorite');
 
     if (image) {
-      image.onerror = () => image.remove();
+      image.loading = 'eager';
+      image.decoding = 'async';
+
+      image.onload = () => {
+        image.classList.add('is-loaded');
+        card.querySelector('.swipe-card-image')
+          ?.classList.remove('is-loading', 'has-error');
+        card.querySelector('.swipe-card-image')
+          ?.classList.add('is-loaded');
+      };
+
+      image.onerror = () => {
+        image.remove();
+        card.querySelector('.swipe-card-image')
+          ?.classList.remove('is-loading', 'is-loaded');
+        card.querySelector('.swipe-card-image')
+          ?.classList.add('has-error');
+      };
     }
 
     favoriteButton.addEventListener('pointerdown', event => {

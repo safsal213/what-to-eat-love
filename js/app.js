@@ -47,10 +47,24 @@ const swipeController = createSwipeController({
   onToggleFavorite: meal => handleToggleFavorite(meal),
   onSwipeFeedback: direction => {
     triggerHaptic(direction === 'right' ? [12, 35, 16] : 8);
-  }
+  },
+  onPreload: sources => preloadImages(sources)
 });
 
 let toastTimer = null;
+
+const preloadedImages = new Set();
+
+function preloadImages(sources = []) {
+  sources.forEach(source => {
+    if (!source || preloadedImages.has(source)) return;
+
+    preloadedImages.add(source);
+    const image = new Image();
+    image.decoding = 'async';
+    image.src = source;
+  });
+}
 
 function triggerHaptic(pattern = 10) {
   if (!('vibrate' in navigator)) return;
