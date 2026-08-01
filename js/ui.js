@@ -3,6 +3,7 @@ const VIEW_IDS = [
   'errorView',
   'categoriesView',
   'favoritesView',
+  'journalView',
   'mealsView',
   'rouletteView',
   'choiceView',
