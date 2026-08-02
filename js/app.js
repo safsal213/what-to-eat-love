@@ -22,6 +22,8 @@ import { buildTimelineEntries, renderTimeline } from './timeline/index.js';
 import { calculateJourney, renderJourney } from './journey/index.js';
 import { pickRediscoverMeal, renderRediscover } from './rediscover/index.js';
 import { buildPredictions, createPredictionController } from './predictions/index.js';
+import { showToast, showCelebration } from './feedback/index.js';
+import { scanImageSkeletons } from './feedback/skeleton.js';
 
 const state = {
   categories: [],
@@ -41,8 +43,24 @@ const state = {
   debugMode: new URLSearchParams(window.location.search).get('debug') === '1'
 };
 
+const imageSkeletonObserver = new MutationObserver(() => {
+  scanImageSkeletons();
+});
+
+imageSkeletonObserver.observe(document.body, {
+  childList: true,
+  subtree: true
+});
+
 const predictionController = createPredictionController({
   onOpen: meal => {
+    showToast({
+      type: 'prediction',
+      icon: '🔮',
+      title: 'פתחנו את ההמלצה',
+      message: meal.name || ''
+    });
+
     state.previousView = 'insightsView';
     openMeal(meal);
   }
@@ -282,6 +300,26 @@ function openJournal() {
   showView('journalView');
 }
 
+function maybeCelebrateMilestone(totalSelections) {
+  const milestone = [100, 50, 30, 10].find(
+    value => totalSelections === value
+  );
+
+  if (!milestone) return;
+
+  const key = `meal-milestone-${milestone}`;
+
+  if (localStorage.getItem(key)) return;
+
+  localStorage.setItem(key, '1');
+
+  showCelebration({
+    icon: milestone >= 100 ? '💯' : '🍽️',
+    title: milestone >= 100 ? 'וואו, מאה ארוחות!' : 'איזה מסע טעים!',
+    message: `כבר בחרתם ${milestone} ארוחות ביחד ❤️`
+  });
+}
+
 function openInsights() {
   state.previousView = 'categoriesView';
 
@@ -324,10 +362,18 @@ function openInsights() {
 
   renderJourney(journey);
   predictionController.render(predictions);
+  maybeCelebrateMilestone(insights.totalSelections);
 
   renderRediscover({
     candidate: rediscoverCandidate,
     onOpen: meal => {
+      showToast({
+        type: 'success',
+        icon: '🔄',
+        title: 'חוזרים למנה אהובה',
+        message: meal.name || ''
+      });
+
       state.previousView = 'insightsView';
       openMeal(meal);
     }
@@ -417,6 +463,14 @@ async function handleToggleFavorite(meal, options = {}) {
       'error'
     );
   }
+
+  showToast({
+    type: meal.favorite ? 'favorite' : 'info',
+    icon: meal.favorite ? '❤️' : '🤍',
+    title: meal.favorite ? 'נוסף למועדפים' : 'הוסר מהמועדפים',
+    message: meal.name || ''
+  });
+
 }
 
 function updateFavoriteViews(options = {}) {
