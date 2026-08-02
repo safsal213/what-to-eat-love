@@ -1,4 +1,4 @@
-const CACHE_NAME = 'what-to-eat-v26-achievements-engine';
+const CACHE_NAME = 'what-to-eat-v27-timeline-premium';
 const STATIC_ASSETS = [
   './','index.html','style.css','manifest.json','js/app.js','js/api.js','js/data.js','js/storage.js','js/ui.js',
   'js/swipe.js',
@@ -8,6 +8,11 @@ const STATIC_ASSETS = [
   'js/journal.js',
   'js/insights.js',
   'js/achievements/renderer.js',
+  'js/timeline/renderer.js',
+  'js/timeline/grouping.js',
+  'js/timeline/formatter.js',
+  'js/timeline/engine.js',
+  'js/timeline/index.js',
   'js/achievements/engine.js',
   'js/achievements/definitions.js',
   'js/achievements/index.js','js/favorites.js','icons/icon-192.png','icons/icon-512.png'

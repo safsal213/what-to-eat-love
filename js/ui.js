@@ -5,6 +5,7 @@ const VIEW_IDS = [
   'favoritesView',
   'journalView',
   'insightsView',
+  'timelineView',
   'mealsView',
   'rouletteView',
   'choiceView',

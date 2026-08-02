@@ -82,6 +82,10 @@
             <span>📊</span>
             <small>התובנות שלנו</small>
           </button>
+          <button id="openTimelineBtn" class="timeline-entry-btn" type="button" aria-label="ציר הזמן שלנו">
+            <span>🕒</span>
+            <small>ציר הזמן</small>
+          </button>
           <span class="categories-sparkle" aria-hidden="true">✨</span>
         </div>
       </div>
@@ -89,6 +93,26 @@
     </section>
 
 
+
+
+    <section id="timelineView" class="hidden">
+      <div class="timeline-heading">
+        <div>
+          <p class="eyebrow">הארוחות שלכם לאורך הזמן</p>
+          <h2>ציר הזמן שלנו 🕒</h2>
+        </div>
+        <span id="timelineCount" class="timeline-count">0 ארוחות</span>
+      </div>
+
+      <div id="timelineList" class="timeline-list"></div>
+
+      <section id="timelineEmpty" class="timeline-empty hidden">
+        <div class="status-emoji">🕒</div>
+        <h2>ציר הזמן עדיין ריק</h2>
+        <p>אחרי שתבחרו ארוחות, הן יופיעו כאן כמו אלבום קטן.</p>
+        <button id="timelineHomeBtn" class="primary-btn" type="button">לבחירת מנות</button>
+      </section>
+    </section>
 
     <section id="insightsView" class="hidden">
       <div class="insights-heading">

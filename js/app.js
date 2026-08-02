@@ -18,6 +18,7 @@ import { renderFavoritesScreen } from './favorites.js';
 import { renderMealJournal } from './journal.js';
 import { calculateInsights, renderInsights } from './insights.js';
 import { calculateAchievements, renderAchievements } from './achievements/index.js';
+import { buildTimelineEntries, renderTimeline } from './timeline/index.js';
 
 const state = {
   categories: [],
@@ -299,6 +300,29 @@ function openInsights() {
   showView('insightsView');
 }
 
+function openTimeline() {
+  state.previousView = 'categoriesView';
+
+  const entries = buildTimelineEntries({
+    history: state.selectionHistory,
+    meals: state.meals
+  });
+
+  renderTimeline({
+    entries,
+    container: el('timelineList'),
+    emptyState: el('timelineEmpty'),
+    countElement: el('timelineCount'),
+    onOpen: entry => {
+      state.previousView = 'timelineView';
+      openMeal(entry.meal);
+    }
+  });
+
+  showView('timelineView');
+}
+
+
 function renderMeals(category) {
   el('mealsTitle').textContent = category.name;
 
@@ -547,9 +571,11 @@ el('refreshSelectionBtn').addEventListener('click', refreshLatestSelection);
 el('openFavoritesBtn').addEventListener('click', openFavorites);
 el('openJournalBtn').addEventListener('click', openJournal);
 el('openInsightsBtn').addEventListener('click', openInsights);
+el('openTimelineBtn').addEventListener('click', openTimeline);
 el('favoritesHomeBtn').addEventListener('click', () => showView('categoriesView'));
 el('journalHomeBtn').addEventListener('click', () => showView('categoriesView'));
 el('insightsHomeBtn').addEventListener('click', () => showView('categoriesView'));
+el('timelineHomeBtn').addEventListener('click', () => showView('categoriesView'));
 el('confirmBtn').addEventListener('click', confirmSelection);
 el('homeBtn').addEventListener('click', () => { state.previousView = null; showView('categoriesView'); });
 el('retryBtn').addEventListener('click', startApp);
@@ -603,11 +629,18 @@ el('backBtn').addEventListener('click', () => {
   const favoritesViewOpen = !el('favoritesView').classList.contains('hidden');
   const journalViewOpen = !el('journalView').classList.contains('hidden');
   const insightsViewOpen = !el('insightsView').classList.contains('hidden');
+  const timelineViewOpen = !el('timelineView').classList.contains('hidden');
 
   if (choiceViewOpen && state.previousView === 'favoritesView') {
     state.selectedMeal = null;
     refreshFavoritesView();
     showView('favoritesView', { direction: 'back' });
+    return;
+  }
+
+  if (choiceViewOpen && state.previousView === 'timelineView') {
+    state.selectedMeal = null;
+    openTimeline();
     return;
   }
 
@@ -624,6 +657,12 @@ el('backBtn').addEventListener('click', () => {
   }
 
   if (insightsViewOpen) {
+    state.previousView = null;
+    showView('categoriesView', { direction: 'back' });
+    return;
+  }
+
+  if (timelineViewOpen) {
     state.previousView = null;
     showView('categoriesView', { direction: 'back' });
     return;
