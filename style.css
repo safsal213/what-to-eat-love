@@ -2742,3 +2742,149 @@ a:focus-visible,
     grid-column:auto;
   }
 }
+
+
+/* v3.1 — Insights 7.2.2 */
+.insight-of-day{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:14px;
+  padding:17px;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 12% 90%,rgba(255,210,182,.72),transparent 34%),
+    linear-gradient(135deg,rgba(255,255,255,.97),rgba(255,245,239,.94));
+  box-shadow:0 14px 34px rgba(79,39,24,.11);
+}
+
+.insight-of-day-icon{
+  width:56px;
+  height:56px;
+  flex:0 0 56px;
+  display:grid;
+  place-items:center;
+  border-radius:19px;
+  background:rgba(255,255,255,.9);
+  font-size:28px;
+  box-shadow:var(--shadow-sm);
+}
+
+.insight-of-day h3{
+  margin:0;
+  font-size:19px;
+  line-height:1.35;
+  letter-spacing:-.015em;
+}
+
+.weekly-chart-card{
+  margin-bottom:14px;
+  padding:16px;
+  border-radius:24px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 13px 32px rgba(79,39,24,.10);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.weekly-chart-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.weekly-chart-heading h3{
+  margin:0;
+  font-size:20px;
+}
+
+.weekly-chart-heading > span{
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,244,237,.92);
+  color:var(--color-primary-dark);
+  font-size:12px;
+  font-weight:850;
+}
+
+.weekly-chart{
+  height:150px;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  align-items:end;
+}
+
+.weekly-bar-column{
+  height:100%;
+  min-width:0;
+  display:grid;
+  grid-template-rows:1fr auto auto;
+  gap:4px;
+  text-align:center;
+}
+
+.weekly-bar-track{
+  min-height:98px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:12px;
+  background:rgba(255,244,237,.66);
+}
+
+.weekly-bar{
+  width:62%;
+  height:var(--bar-height);
+  min-height:6px;
+  border-radius:9px 9px 4px 4px;
+  background:linear-gradient(180deg,#db7a57,#bd4d35);
+  box-shadow:0 6px 14px rgba(190,79,49,.18);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .62s cubic-bezier(.2,.82,.2,1);
+}
+
+.weekly-bar.is-visible{
+  transform:scaleY(1);
+}
+
+.weekly-bar-column strong{
+  font-size:12px;
+}
+
+.weekly-bar-column small{
+  color:var(--color-text-muted);
+  font-size:10px;
+  font-weight:750;
+}
+
+@media(max-width:390px){
+  .insight-of-day{
+    padding:14px;
+  }
+
+  .insight-of-day-icon{
+    width:50px;
+    height:50px;
+    flex-basis:50px;
+  }
+
+  .insight-of-day h3{
+    font-size:17px;
+  }
+
+  .weekly-chart{
+    gap:5px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .weekly-bar{
+    transition:none!important;
+    transform:scaleY(1)!important;
+  }
+}

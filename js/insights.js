@@ -18,7 +18,9 @@ export function calculateInsights({
       currentStreak: 0,
       topMeal: null,
       topCategory: null,
-      favoritesShare: 0
+      favoritesShare: 0,
+      weeklyData: [],
+      insightText: 'עוד רגע נכיר את ההרגלים שלכם'
     };
   }
 
@@ -43,6 +45,8 @@ export function calculateInsights({
 
   const favoriteSelections = entries.filter(entry => entry.favorite).length;
 
+  const weeklyData = buildWeeklyData(entries, now);
+
   return {
     totalSelections: entries.length,
     monthSelections: currentMonthEntries.length,
@@ -61,7 +65,15 @@ export function calculateInsights({
       : null,
     favoritesShare: Math.round(
       (favoriteSelections / entries.length) * 100
-    )
+    ),
+    weeklyData,
+    insightText: buildInsightText({
+      entries,
+      currentMonthEntries,
+      favoriteSelections,
+      topMealName: topMealEntry?.name || '',
+      currentStreak: calculateCurrentStreak(entries)
+    })
   };
 }
 
@@ -103,6 +115,148 @@ export function renderInsights({
     'topCategoryCount',
     `${insights.topCategory?.count || 0} בחירות`
   );
+
+  setText(
+    'insightOfDayText',
+    insights.insightText || 'ההרגלים שלכם מתחילים לקבל צורה'
+  );
+
+  animateCounters(insights);
+  renderWeeklyChart(insights.weeklyData || []);
+}
+
+function buildInsightText({
+  entries,
+  currentMonthEntries,
+  favoriteSelections,
+  topMealName,
+  currentStreak
+}) {
+  if (!entries.length) {
+    return 'עוד רגע נכיר את ההרגלים שלכם';
+  }
+
+  const favoriteShare = Math.round(
+    (favoriteSelections / entries.length) * 100
+  );
+
+  if (currentStreak >= 3) {
+    return `🔥 אתם כבר ${currentStreak} ימים ברצף בוחרים יחד ארוחה`;
+  }
+
+  if (favoriteShare >= 60) {
+    return '❤️ לאחרונה אתם בוחרים הרבה מתוך המועדפים';
+  }
+
+  if (topMealName) {
+    return `🏆 נראה ש־${topMealName} היא המנה המנצחת שלכם`;
+  }
+
+  if (currentMonthEntries.length >= 10) {
+    return `🍽️ החודש כבר בחרתם ${currentMonthEntries.length} ארוחות`;
+  }
+
+  return '🧠 Smart Shuffle מתחיל ללמוד את ההעדפות שלכם';
+}
+
+function buildWeeklyData(entries, now) {
+  const labels = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'];
+  const result = [];
+
+  for (let offset = 6; offset >= 0; offset -= 1) {
+    const day = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() - offset
+    );
+
+    const count = entries.filter(entry =>
+      entry.date.getFullYear() === day.getFullYear() &&
+      entry.date.getMonth() === day.getMonth() &&
+      entry.date.getDate() === day.getDate()
+    ).length;
+
+    result.push({
+      label: labels[day.getDay()],
+      count
+    });
+  }
+
+  return result;
+}
+
+function renderWeeklyChart(weeklyData) {
+  const chart = document.getElementById('weeklyChart');
+  if (!chart) return;
+
+  const max = Math.max(1, ...weeklyData.map(item => item.count));
+  const total = weeklyData.reduce((sum, item) => sum + item.count, 0);
+
+  setText('weeklyTotal', `${total} ${total === 1 ? 'בחירה' : 'בחירות'}`);
+
+  chart.innerHTML = weeklyData.map(item => {
+    const height = Math.max(
+      item.count ? 18 : 6,
+      Math.round((item.count / max) * 100)
+    );
+
+    return `
+      <div class="weekly-bar-column">
+        <div class="weekly-bar-track">
+          <div
+            class="weekly-bar"
+            style="--bar-height:${height}%"
+            title="${item.count} בחירות"
+          ></div>
+        </div>
+        <strong>${item.label}</strong>
+        <small>${item.count}</small>
+      </div>
+    `;
+  }).join('');
+
+  requestAnimationFrame(() => {
+    chart.querySelectorAll('.weekly-bar').forEach(bar => {
+      bar.classList.add('is-visible');
+    });
+  });
+}
+
+function animateCounters(insights) {
+  const targets = [
+    ['monthSelections', insights.monthSelections],
+    ['favoritesShare', insights.favoritesShare, '%'],
+    ['totalSelections', insights.totalSelections]
+  ];
+
+  targets.forEach(([id, target, suffix = '']) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    if (reducedMotion) {
+      element.textContent = `${target}${suffix}`;
+      return;
+    }
+
+    const duration = 700;
+    const start = performance.now();
+
+    function tick(now) {
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = `${Math.round(target * eased)}${suffix}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      }
+    }
+
+    requestAnimationFrame(tick);
+  });
 }
 
 function normalizeSelection(selection, mealMap) {
