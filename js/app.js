@@ -21,6 +21,7 @@ import { calculateAchievements, renderAchievements } from './achievements/index.
 import { buildTimelineEntries, renderTimeline } from './timeline/index.js';
 import { calculateJourney, renderJourney } from './journey/index.js';
 import { pickRediscoverMeal, renderRediscover } from './rediscover/index.js';
+import { buildPredictions, createPredictionController } from './predictions/index.js';
 
 const state = {
   categories: [],
@@ -39,6 +40,13 @@ const state = {
   smartScores: [],
   debugMode: new URLSearchParams(window.location.search).get('debug') === '1'
 };
+
+const predictionController = createPredictionController({
+  onOpen: meal => {
+    state.previousView = 'insightsView';
+    openMeal(meal);
+  }
+});
 
 const rouletteController = createRouletteController({
   onComplete: meal => {
@@ -297,6 +305,11 @@ function openInsights() {
     meals: state.meals
   });
 
+  const predictions = buildPredictions({
+    history: state.selectionHistory,
+    meals: state.meals
+  });
+
   renderInsights({
     insights,
     emptyState: el('insightsEmpty'),
@@ -310,6 +323,7 @@ function openInsights() {
   });
 
   renderJourney(journey);
+  predictionController.render(predictions);
 
   renderRediscover({
     candidate: rediscoverCandidate,

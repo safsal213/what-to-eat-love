@@ -1,4 +1,4 @@
-const CACHE_NAME = 'what-to-eat-v28-journey-rediscover';
+const CACHE_NAME = 'what-to-eat-v29-smart-predictions';
 const STATIC_ASSETS = [
   './','index.html','style.css','manifest.json','js/app.js','js/api.js','js/data.js','js/storage.js','js/ui.js',
   'js/swipe.js',
@@ -10,6 +10,9 @@ const STATIC_ASSETS = [
   'js/achievements/renderer.js',
   'js/timeline/renderer.js',
   'js/rediscover/renderer.js',
+  'js/predictions/renderer.js',
+  'js/predictions/engine.js',
+  'js/predictions/index.js',
   'js/rediscover/engine.js',
   'js/rediscover/index.js',
   'js/journey/renderer.js',

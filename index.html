@@ -147,6 +147,70 @@
 
 
 
+
+      <section class="prediction-section" aria-labelledby="predictionTitle">
+        <article id="predictionCard" class="prediction-card">
+          <div class="prediction-card-header">
+            <div class="prediction-icon" aria-hidden="true">🔮</div>
+
+            <div class="prediction-heading-copy">
+              <p class="eyebrow">ההמלצה החכמה הבאה</p>
+              <h3 id="predictionTitle">מה יתאים לכם עכשיו?</h3>
+            </div>
+
+            <span id="predictionConfidence" class="prediction-confidence">
+              0% התאמה
+            </span>
+          </div>
+
+          <div class="prediction-body">
+            <div class="prediction-image-wrap">
+              <span id="predictionEmoji" class="prediction-emoji">🍽️</span>
+              <img id="predictionImage" class="hidden" alt="">
+            </div>
+
+            <div class="prediction-copy">
+              <h4 id="predictionMealName">עדיין לומד אתכם</h4>
+              <p id="predictionReason">
+                אחרי עוד כמה בחירות אוכל לתת המלצה מדויקת יותר.
+              </p>
+
+              <div class="prediction-actions">
+                <button id="predictionOpenBtn" class="primary-btn" type="button">
+                  לראות את המנה
+                </button>
+
+                <button id="predictionRefreshBtn" class="secondary-btn" type="button">
+                  הצעה אחרת
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="learning-score-card">
+          <div class="learning-score-copy">
+            <span class="learning-score-icon" aria-hidden="true">🧠</span>
+            <div>
+              <p class="eyebrow">Learning Score</p>
+              <h3>
+                האפליקציה מכירה
+                <strong id="learningScore">0%</strong>
+                מההרגלים שלכם
+              </h3>
+            </div>
+          </div>
+
+          <div class="learning-score-track" aria-hidden="true">
+            <div id="learningScoreFill" class="learning-score-fill"></div>
+          </div>
+
+          <p id="learningScoreHint" class="learning-score-hint">
+            כל בחירה נוספת משפרת את הדיוק.
+          </p>
+        </article>
+      </section>
+
       <section class="journey-section" aria-labelledby="journeyTitle">
         <article class="journey-card">
           <div class="journey-card-header">
