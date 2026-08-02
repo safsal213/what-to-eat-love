@@ -3632,3 +3632,258 @@ a:focus-visible,
     transform:scaleX(1)!important;
   }
 }
+
+
+/* v3.6 — Diamond Polish Phase 1 */
+:root{
+  --motion-fast:160ms;
+  --motion-base:240ms;
+  --motion-slow:380ms;
+  --motion-ease:cubic-bezier(.2,.82,.2,1);
+  --radius-control:16px;
+  --radius-card:24px;
+  --shadow-control:
+    0 9px 22px rgba(71,34,21,.09),
+    inset 0 1px 0 rgba(255,255,255,.72);
+  --shadow-card:
+    0 14px 34px rgba(71,34,21,.105),
+    inset 0 1px 0 rgba(255,255,255,.60);
+  --shadow-card-hover:
+    0 19px 42px rgba(71,34,21,.145),
+    inset 0 1px 0 rgba(255,255,255,.72);
+}
+
+/* Consistent control language */
+button,
+.primary-btn,
+.secondary-btn,
+.role-btn,
+.header-icon-btn,
+.icon-btn,
+.swipe-action,
+.favorites-entry-btn,
+.journal-entry-btn,
+.insights-entry-btn,
+.timeline-entry-btn,
+.shuffle-deck-btn{
+  border-radius:var(--radius-control);
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) ease,
+    filter var(--motion-fast) ease,
+    opacity var(--motion-fast) ease;
+}
+
+button:not(:disabled):active,
+.primary-btn:not(:disabled):active,
+.secondary-btn:not(:disabled):active,
+.role-btn:not(:disabled):active,
+.header-icon-btn:not(:disabled):active,
+.icon-btn:not(:disabled):active,
+.swipe-action:not(:disabled):active,
+.favorites-entry-btn:not(:disabled):active,
+.journal-entry-btn:not(:disabled):active,
+.insights-entry-btn:not(:disabled):active,
+.timeline-entry-btn:not(:disabled):active,
+.shuffle-deck-btn:not(:disabled):active{
+  transform:translateY(1px) scale(.975);
+}
+
+/* Consistent premium cards */
+.category-card,
+.favorite-card,
+.choice-card,
+.status-card,
+.role-card,
+.haim-card,
+.swipe-card,
+.journal-item,
+.insight-card,
+.insight-of-day,
+.weekly-chart-card,
+.achievement-card,
+.timeline-card,
+.journey-card,
+.rediscover-card,
+.prediction-card,
+.learning-score-card{
+  border-radius:var(--radius-card);
+  box-shadow:var(--shadow-card);
+  transition:
+    transform var(--motion-base) var(--motion-ease),
+    box-shadow var(--motion-base) ease,
+    border-color var(--motion-base) ease,
+    background-color var(--motion-base) ease;
+}
+
+/* Improve very long screens */
+.journal-day,
+.timeline-day,
+.achievement-card,
+.insight-card{
+  content-visibility:auto;
+  contain-intrinsic-size:1px 230px;
+}
+
+.timeline-card,
+.journal-item{
+  contain:layout paint style;
+}
+
+/* Better tap feedback on cards */
+.category-card:active,
+.favorite-card:active,
+.timeline-card:active,
+.journal-item:active,
+.insight-card:active,
+.achievement-card:active{
+  transform:translateY(1px) scale(.987);
+}
+
+/* Stable image rendering */
+img{
+  backface-visibility:hidden;
+  transform:translateZ(0);
+}
+
+.choice-image-wrap,
+.swipe-card-image,
+.favorite-card-image,
+.timeline-card-image,
+.journal-image-wrap,
+.rediscover-image-wrap,
+.prediction-image-wrap{
+  background-color:#f2dfd3;
+}
+
+/* Uniform heading rhythm */
+.categories-intro h2,
+.swipe-heading h2,
+.favorites-toolbar h2,
+.journal-heading h2,
+.insights-heading h2,
+.timeline-heading h2{
+  line-height:1.12;
+  letter-spacing:-.025em;
+}
+
+.eyebrow{
+  line-height:1.25;
+  letter-spacing:.01em;
+}
+
+/* Cleaner sticky swipe actions */
+.swipe-actions{
+  border:1px solid rgba(123,67,43,.055);
+  box-shadow:
+    0 10px 30px rgba(71,34,21,.08),
+    inset 0 1px 0 rgba(255,255,255,.58);
+}
+
+/* Stronger keyboard focus without changing mouse UX */
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible{
+  outline:none;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.96),
+    0 0 0 6px rgba(199,91,57,.38),
+    var(--shadow-control);
+}
+
+.timeline-card:focus-visible,
+.category-card:focus-visible,
+.favorite-card:focus-visible{
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.96),
+    0 0 0 6px rgba(199,91,57,.32),
+    var(--shadow-card);
+}
+
+/* Prevent accidental text selection on tappable UI */
+button,
+.category-card,
+.favorite-card,
+.timeline-card{
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+/* Desktop polish, isolated from touch devices */
+@media(hover:hover) and (pointer:fine){
+  .category-card:hover,
+  .favorite-card:hover,
+  .timeline-card:hover,
+  .journal-item:hover,
+  .insight-card:hover,
+  .achievement-card:hover,
+  .journey-card:hover,
+  .rediscover-card:hover,
+  .prediction-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-card-hover);
+  }
+
+  button:not(:disabled):hover,
+  .primary-btn:not(:disabled):hover,
+  .secondary-btn:not(:disabled):hover{
+    filter:saturate(1.035) brightness(1.01);
+  }
+}
+
+/* Small-screen spacing audit */
+@media(max-width:420px){
+  .app-shell{
+    padding-top:14px;
+  }
+
+  .categories-actions{
+    row-gap:7px;
+  }
+
+  .journal-list,
+  .timeline-list,
+  .achievements-grid,
+  .insights-grid{
+    gap:12px;
+  }
+
+  .prediction-card,
+  .journey-card,
+  .learning-score-card,
+  .weekly-chart-card{
+    padding:14px;
+  }
+}
+
+/* Accessibility preferences */
+@media(prefers-reduced-motion:reduce){
+  html{
+    scroll-behavior:auto;
+  }
+
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+}
+
+@media(prefers-contrast:more){
+  .category-card,
+  .favorite-card,
+  .choice-card,
+  .status-card,
+  .timeline-card,
+  .journal-item,
+  .insight-card,
+  .achievement-card,
+  .journey-card,
+  .rediscover-card,
+  .prediction-card{
+    border:1px solid rgba(64,35,24,.30);
+  }
+}
