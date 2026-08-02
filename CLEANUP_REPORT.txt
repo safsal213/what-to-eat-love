@@ -1,0 +1,121 @@
+app.js unchanged: OK
+sw.js unchanged: OK
+module imports: OK
+service-worker assets: OK
+files before: 118
+files after: 45
+files removed: 74
+size before: 639.0 KB
+size after: 593.8 KB
+js/achievements/definitions.js: OK
+js/achievements/engine.js: OK
+js/achievements/index.js: OK
+js/achievements/renderer.js: OK
+js/api.js: OK
+js/app.js: OK
+js/data.js: OK
+js/favorites.js: OK
+js/feedback/celebration.js: OK
+js/feedback/index.js: OK
+js/feedback/skeleton.js: OK
+js/feedback/toast.js: OK
+js/insights.js: OK
+js/journal.js: OK
+js/journey/engine.js: OK
+js/journey/index.js: OK
+js/journey/renderer.js: OK
+js/predictions/engine.js: OK
+js/predictions/index.js: OK
+js/predictions/renderer.js: OK
+js/rediscover/engine.js: OK
+js/rediscover/index.js: OK
+js/rediscover/renderer.js: OK
+js/roulette.js: OK
+js/smartShuffle.js: OK
+js/storage.js: OK
+js/swipe.js: OK
+js/timeline/engine.js: OK
+js/timeline/formatter.js: OK
+js/timeline/grouping.js: OK
+js/timeline/index.js: OK
+js/timeline/renderer.js: OK
+js/ui.js: OK
+js/utils.js: OK
+manifest.json: OK
+BUILD_INFO.json: OK
+
+Removed files:
+AppsScript-SmartShuffle-v1.8.gs
+CHANGELOG-v1.0.0-RC01.md
+CHANGELOG-v1.0.0-RC02.md
+CHANGELOG-v1.2-step2.md
+CHANGELOG-v1.3-step1-backfix.md
+CHANGELOG-v1.3-step1.md
+CHANGELOG-v1.5-FAVORITES.md
+CHANGELOG-v1.6-FAVORITES-SCREEN.md
+CHANGELOG-v1.6.1-FAVORITES-FIX.md
+CHANGELOG-v1.8-SMART-SHUFFLE-LIVE.md
+CHANGELOG-v1.9-PREMIUM-BUTTONS.md
+CHANGELOG-v2.0-HEART-TOAST-HAPTICS.md
+CHANGELOG-v2.1-HERO-IMAGES.md
+CHANGELOG-v2.2-PREMIUM-MOTION.md
+CHANGELOG-v2.3-DYNAMIC-BACKGROUND.md
+CHANGELOG-v2.4-LAYOUT-POLISH.md
+CHANGELOG-v2.5-MOBILE-ACCESSIBILITY.md
+CHANGELOG-v2.6-ROULETTE-STEP1.md
+CHANGELOG-v2.7-ROULETTE-STEP2.md
+CHANGELOG-v2.8-ROULETTE-STEP3.md
+CHANGELOG-v2.9-MEAL-JOURNAL.md
+CHANGELOG-v3.0-INSIGHTS-DASHBOARD.md
+CHANGELOG-v3.1-INSIGHTS-VISUALS.md
+CHANGELOG-v3.2-ACHIEVEMENTS-ENGINE.md
+CHANGELOG-v3.3-TIMELINE-PREMIUM.md
+CHANGELOG-v3.4-JOURNEY-REDISCOVER.md
+CHANGELOG-v3.5-SMART-PREDICTIONS.md
+CHANGELOG-v3.6-DIAMOND-POLISH-PHASE1.md
+CHANGELOG-v3.7-DESIGN-SYSTEM-FOUNDATION.md
+CHANGELOG-v3.8-NATIVE-FEEL.md
+CHANGELOG-v3.8.1-NATIVE-FEEL-HOTFIX.md
+DESIGN-SYSTEM-v1.md
+NATIVE-FEEL-SYSTEM.md
+RC-QA-CHECKLIST-v3.6.md
+README-MODULAR.md
+SPRINT-2-FOUNDATION.md
+SPRINT-4.1-SMART-SHUFFLE.md
+VALIDATION-v1.0.0-RC01.txt
+VALIDATION-v1.0.0-RC02.txt
+VALIDATION-v1.5.txt
+VALIDATION-v1.6.1.txt
+VALIDATION-v1.6.txt
+VALIDATION-v1.7.txt
+VALIDATION-v1.8.txt
+VALIDATION-v1.9.txt
+VALIDATION-v2.0.txt
+VALIDATION-v2.1.txt
+VALIDATION-v2.2.txt
+VALIDATION-v2.3.txt
+VALIDATION-v2.4.txt
+VALIDATION-v2.5.txt
+VALIDATION-v2.6.txt
+VALIDATION-v2.7.txt
+VALIDATION-v2.8.txt
+VALIDATION-v2.9.txt
+VALIDATION-v3.0.txt
+VALIDATION-v3.1.txt
+VALIDATION-v3.2.txt
+VALIDATION-v3.3.txt
+VALIDATION-v3.4.txt
+VALIDATION-v3.5.txt
+VALIDATION-v3.6.txt
+VALIDATION-v3.7.txt
+VALIDATION-v3.8.1.txt
+VALIDATION-v3.8.txt
+VALIDATION.txt
+app.js
+images/meals/PUT-MEAL-IMAGES-HERE.txt
+js/achievements/achievements.test.mjs
+js/journey/journey.test.mjs
+js/predictions/predictions.test.mjs
+js/rediscover/rediscover.test.mjs
+js/smartShuffle.test.mjs
+js/timeline/timeline.test.mjs

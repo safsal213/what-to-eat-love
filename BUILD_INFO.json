@@ -1,12 +1,13 @@
 {
-  "version": "1.0.0-rc01",
+  "version": "1.0.0-rc03",
   "channel": "release-candidate",
-  "status": "stable-baseline",
+  "status": "clean-deployment-package",
   "buildTimeUtc": "2026-08-02T13:16:07+00:00",
-  "source": "v3.8.1-native-feel-hotfix",
+  "source": "v1.0.0-rc02",
   "startupDependenciesAdded": false,
   "appJsChanged": false,
   "serviceWorkerChanged": false,
   "apiChanged": false,
-  "googleSheetsChanged": false
+  "googleSheetsChanged": false,
+  "projectCleanup": true
 }
