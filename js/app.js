@@ -19,6 +19,8 @@ import { renderMealJournal } from './journal.js';
 import { calculateInsights, renderInsights } from './insights.js';
 import { calculateAchievements, renderAchievements } from './achievements/index.js';
 import { buildTimelineEntries, renderTimeline } from './timeline/index.js';
+import { calculateJourney, renderJourney } from './journey/index.js';
+import { pickRediscoverMeal, renderRediscover } from './rediscover/index.js';
 
 const state = {
   categories: [],
@@ -285,6 +287,16 @@ function openInsights() {
     meals: state.meals
   });
 
+  const journey = calculateJourney({
+    history: state.selectionHistory,
+    achievements
+  });
+
+  const rediscoverCandidate = pickRediscoverMeal({
+    history: state.selectionHistory,
+    meals: state.meals
+  });
+
   renderInsights({
     insights,
     emptyState: el('insightsEmpty'),
@@ -295,6 +307,16 @@ function openInsights() {
     achievements,
     container: el('achievementsGrid'),
     summaryElement: el('achievementsSummary')
+  });
+
+  renderJourney(journey);
+
+  renderRediscover({
+    candidate: rediscoverCandidate,
+    onOpen: meal => {
+      state.previousView = 'insightsView';
+      openMeal(meal);
+    }
   });
 
   showView('insightsView');
@@ -641,6 +663,12 @@ el('backBtn').addEventListener('click', () => {
   if (choiceViewOpen && state.previousView === 'timelineView') {
     state.selectedMeal = null;
     openTimeline();
+    return;
+  }
+
+  if (choiceViewOpen && state.previousView === 'insightsView') {
+    state.selectedMeal = null;
+    openInsights();
     return;
   }
 

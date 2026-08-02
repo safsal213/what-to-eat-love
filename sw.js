@@ -1,4 +1,4 @@
-const CACHE_NAME = 'what-to-eat-v27-timeline-premium';
+const CACHE_NAME = 'what-to-eat-v28-journey-rediscover';
 const STATIC_ASSETS = [
   './','index.html','style.css','manifest.json','js/app.js','js/api.js','js/data.js','js/storage.js','js/ui.js',
   'js/swipe.js',
@@ -9,6 +9,12 @@ const STATIC_ASSETS = [
   'js/insights.js',
   'js/achievements/renderer.js',
   'js/timeline/renderer.js',
+  'js/rediscover/renderer.js',
+  'js/rediscover/engine.js',
+  'js/rediscover/index.js',
+  'js/journey/renderer.js',
+  'js/journey/engine.js',
+  'js/journey/index.js',
   'js/timeline/grouping.js',
   'js/timeline/formatter.js',
   'js/timeline/engine.js',
