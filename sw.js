@@ -1,11 +1,12 @@
-const CACHE_NAME = 'what-to-eat-v23-meal-journal';
+const CACHE_NAME = 'what-to-eat-v24-insights-dashboard';
 const STATIC_ASSETS = [
   './','index.html','style.css','manifest.json','js/app.js','js/api.js','js/data.js','js/storage.js','js/ui.js',
   'js/swipe.js',
   'js/utils.js',
   'js/smartShuffle.js',
   'js/roulette.js',
-  'js/journal.js','js/favorites.js','icons/icon-192.png','icons/icon-512.png'
+  'js/journal.js',
+  'js/insights.js','js/favorites.js','icons/icon-192.png','icons/icon-512.png'
 ];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(STATIC_ASSETS)));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))));self.clients.claim()});

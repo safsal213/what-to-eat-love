@@ -78,12 +78,91 @@
             <span>📖</span>
             <small>יומן הארוחות</small>
           </button>
+          <button id="openInsightsBtn" class="insights-entry-btn" type="button" aria-label="התובנות שלנו">
+            <span>📊</span>
+            <small>התובנות שלנו</small>
+          </button>
           <span class="categories-sparkle" aria-hidden="true">✨</span>
         </div>
       </div>
       <div id="categoriesGrid" class="category-grid"></div>
     </section>
 
+
+
+    <section id="insightsView" class="hidden">
+      <div class="insights-heading">
+        <div>
+          <p class="eyebrow">ההרגלים שלכם במספרים</p>
+          <h2>התובנות שלנו 📊</h2>
+        </div>
+
+        <span id="insightsPeriod" class="insights-period">כל התקופה</span>
+      </div>
+
+      <div id="insightsGrid" class="insights-grid">
+        <article class="insight-card insight-card-featured">
+          <div class="insight-card-icon">🏆</div>
+          <div class="insight-card-copy">
+            <span>המנה המובילה</span>
+            <strong id="topMealName">—</strong>
+            <small id="topMealCount">0 פעמים</small>
+          </div>
+        </article>
+
+        <article class="insight-card">
+          <div class="insight-card-icon">🔥</div>
+          <div class="insight-card-copy">
+            <span>רצף נוכחי</span>
+            <strong id="currentStreak">0 ימים</strong>
+            <small>בחירות רצופות</small>
+          </div>
+        </article>
+
+        <article class="insight-card">
+          <div class="insight-card-icon">🍽️</div>
+          <div class="insight-card-copy">
+            <span>החודש</span>
+            <strong id="monthSelections">0</strong>
+            <small>ארוחות נבחרו</small>
+          </div>
+        </article>
+
+        <article class="insight-card">
+          <div class="insight-card-icon">❤️</div>
+          <div class="insight-card-copy">
+            <span>מועדפים</span>
+            <strong id="favoritesShare">0%</strong>
+            <small>מהבחירות</small>
+          </div>
+        </article>
+
+        <article class="insight-card">
+          <div class="insight-card-icon">📚</div>
+          <div class="insight-card-copy">
+            <span>סה״כ בחירות</span>
+            <strong id="totalSelections">0</strong>
+            <small>מאז שהתחלתם</small>
+          </div>
+        </article>
+
+        <article class="insight-card">
+          <div class="insight-card-icon">🎨</div>
+          <div class="insight-card-copy">
+            <span>קטגוריה מובילה</span>
+            <strong id="topCategory">—</strong>
+            <small id="topCategoryCount">0 בחירות</small>
+          </div>
+        </article>
+      </div>
+
+      <section id="insightsEmpty" class="insights-empty hidden">
+        <div class="status-emoji">📊</div>
+        <h2>עדיין אין מספיק נתונים</h2>
+        <p>אחרי כמה בחירות יופיעו כאן התובנות שלכם.</p>
+        <button id="insightsHomeBtn" class="primary-btn" type="button">לבחירת מנות</button>
+      </section>
+    </section>
 
     <section id="journalView" class="hidden">
       <div class="journal-heading">

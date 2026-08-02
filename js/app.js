@@ -16,6 +16,7 @@ import { createSwipeController } from './swipe.js';
 import { createRouletteController } from './roulette.js';
 import { renderFavoritesScreen } from './favorites.js';
 import { renderMealJournal } from './journal.js';
+import { calculateInsights, renderInsights } from './insights.js';
 
 const state = {
   categories: [],
@@ -269,6 +270,23 @@ function openJournal() {
   showView('journalView');
 }
 
+function openInsights() {
+  state.previousView = 'categoriesView';
+
+  const insights = calculateInsights({
+    history: state.selectionHistory,
+    meals: state.meals
+  });
+
+  renderInsights({
+    insights,
+    emptyState: el('insightsEmpty'),
+    grid: el('insightsGrid')
+  });
+
+  showView('insightsView');
+}
+
 function renderMeals(category) {
   el('mealsTitle').textContent = category.name;
 
@@ -516,8 +534,10 @@ el('switchRoleBtn').addEventListener('click', switchRole);
 el('refreshSelectionBtn').addEventListener('click', refreshLatestSelection);
 el('openFavoritesBtn').addEventListener('click', openFavorites);
 el('openJournalBtn').addEventListener('click', openJournal);
+el('openInsightsBtn').addEventListener('click', openInsights);
 el('favoritesHomeBtn').addEventListener('click', () => showView('categoriesView'));
 el('journalHomeBtn').addEventListener('click', () => showView('categoriesView'));
+el('insightsHomeBtn').addEventListener('click', () => showView('categoriesView'));
 el('confirmBtn').addEventListener('click', confirmSelection);
 el('homeBtn').addEventListener('click', () => { state.previousView = null; showView('categoriesView'); });
 el('retryBtn').addEventListener('click', startApp);
@@ -570,6 +590,7 @@ el('backBtn').addEventListener('click', () => {
   const mealsViewOpen = !el('mealsView').classList.contains('hidden');
   const favoritesViewOpen = !el('favoritesView').classList.contains('hidden');
   const journalViewOpen = !el('journalView').classList.contains('hidden');
+  const insightsViewOpen = !el('insightsView').classList.contains('hidden');
 
   if (choiceViewOpen && state.previousView === 'favoritesView') {
     state.selectedMeal = null;
@@ -585,6 +606,12 @@ el('backBtn').addEventListener('click', () => {
   }
 
   if (journalViewOpen) {
+    state.previousView = null;
+    showView('categoriesView', { direction: 'back' });
+    return;
+  }
+
+  if (insightsViewOpen) {
     state.previousView = null;
     showView('categoriesView', { direction: 'back' });
     return;
