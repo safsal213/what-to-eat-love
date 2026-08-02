@@ -86,6 +86,10 @@
     }
     .row span { color:var(--muted); }
     .row strong { text-align:left; overflow-wrap:anywhere; }
+    .about-actions {
+      display:grid;
+      gap:10px;
+    }
     .back {
       width:100%;
       min-height:48px;
@@ -98,6 +102,12 @@
       text-decoration:none;
       font-weight:900;
       box-shadow:0 10px 22px rgba(185,72,48,.22);
+    }
+    .back.secondary {
+      background:#fff;
+      color:var(--accent-dark);
+      border:1px solid rgba(123,67,43,.12);
+      box-shadow:0 8px 20px rgba(71,34,21,.08);
     }
     footer {
       margin-top:18px;
@@ -120,7 +130,10 @@
       <div class="row"><span>תאריך Build</span><strong>2026-08-02T13:16:07+00:00</strong></div>
     </section>
 
-    <a class="back" href="index.html">← חזרה לאפליקציה</a>
+    <div class="about-actions">
+      <a class="back secondary" href="release-notes.html">מה חדש בגרסה?</a>
+      <a class="back" href="index.html">← חזרה לאפליקציה</a>
+    </div>
     <footer>נבנה באהבה עבור מעיין ❤️</footer>
   </main>
 </body>
