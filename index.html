@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="style.css">
   <title>מה בא לך לאכול אהובתי?</title>
 </head>
-<body data-build="3.8.1-native-feel-hotfix">
+<body data-build="1.0.0-rc1">
   <header class="topbar" role="banner">
     <div class="brand-block">
       <div id="headerAvatar" class="header-avatar" aria-hidden="true">❤️</div>
@@ -532,6 +532,20 @@
       <div id="celebrationParticles" class="celebration-particles" aria-hidden="true"></div>
     </section>
   </div>
+
+
+  <section id="runtimeRecovery" class="runtime-recovery hidden" role="alert">
+    <div class="runtime-recovery-card">
+      <div class="status-emoji">🛠️</div>
+      <h2>משהו קטן השתבש</h2>
+      <p>האפליקציה לא הצליחה להשלים את הטעינה. אפשר לנסות שוב בלי למחוק את הנתונים.</p>
+      <div class="runtime-recovery-actions">
+        <button id="runtimeRetryBtn" class="primary-btn" type="button">לנסות שוב</button>
+        <button id="runtimeReloadBtn" class="secondary-btn" type="button">רענון מלא</button>
+      </div>
+      <small id="runtimeErrorCode"></small>
+    </div>
+  </section>
 
 </body>
 </html>
