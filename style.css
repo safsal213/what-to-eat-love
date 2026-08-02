@@ -3379,3 +3379,256 @@ a:focus-visible,
     animation:none!important;
   }
 }
+
+
+/* v3.5 — Smart Predictions 7.3 */
+.prediction-section{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin:16px 0;
+}
+
+.prediction-card,
+.learning-score-card{
+  border-radius:25px;
+  background:rgba(255,255,255,.93);
+  box-shadow:0 14px 34px rgba(79,39,24,.11);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.prediction-card{
+  padding:16px;
+  background:
+    radial-gradient(circle at 12% 88%,rgba(221,205,255,.42),transparent 34%),
+    linear-gradient(135deg,rgba(255,255,255,.98),rgba(250,247,255,.95));
+}
+
+.prediction-card-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.prediction-icon{
+  width:50px;
+  height:50px;
+  flex:0 0 50px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:rgba(255,255,255,.9);
+  font-size:25px;
+  box-shadow:var(--shadow-sm);
+}
+
+.prediction-heading-copy{
+  min-width:0;
+  flex:1;
+}
+
+.prediction-heading-copy h3{
+  margin:0;
+  font-size:21px;
+  letter-spacing:-.02em;
+}
+
+.prediction-confidence{
+  flex:0 0 auto;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(120,91,189,.10);
+  color:#6547a5;
+  font-size:11px;
+  font-weight:900;
+}
+
+.prediction-body{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:15px;
+}
+
+.prediction-image-wrap{
+  position:relative;
+  min-height:170px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border-radius:21px;
+  background:linear-gradient(145deg,#e6dbf8,#bfa4e4);
+}
+
+.prediction-image-wrap img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.prediction-emoji{
+  font-size:50px;
+}
+
+.prediction-copy{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.prediction-copy h4{
+  margin:0 0 7px;
+  font-size:25px;
+  letter-spacing:-.025em;
+}
+
+.prediction-copy > p{
+  margin:0 0 14px;
+  color:var(--color-text-muted);
+  line-height:1.45;
+}
+
+.prediction-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.prediction-actions .primary-btn,
+.prediction-actions .secondary-btn{
+  min-height:46px;
+}
+
+.prediction-swap{
+  animation:predictionSwap .38s cubic-bezier(.2,.82,.2,1);
+}
+
+.learning-score-card{
+  padding:16px;
+}
+
+.learning-score-copy{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.learning-score-icon{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  display:grid;
+  place-items:center;
+  border-radius:17px;
+  background:rgba(255,245,239,.95);
+  font-size:24px;
+}
+
+.learning-score-copy h3{
+  margin:0;
+  font-size:18px;
+  line-height:1.35;
+}
+
+.learning-score-copy strong{
+  color:var(--color-primary-dark);
+  font-size:23px;
+}
+
+.learning-score-track{
+  height:10px;
+  margin:14px 0 9px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(91,66,56,.10);
+}
+
+.learning-score-fill{
+  width:var(--learning-score,0%);
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#8b6cc4,#c4698a,#d87a58);
+  transform:scaleX(0);
+  transform-origin:right;
+  transition:transform .75s cubic-bezier(.2,.82,.2,1);
+}
+
+.learning-score-fill.is-visible{
+  transform:scaleX(1);
+}
+
+.learning-score-hint{
+  margin:0;
+  color:var(--color-text-muted);
+  font-size:12px;
+  line-height:1.45;
+}
+
+@keyframes predictionSwap{
+  from{
+    opacity:.35;
+    transform:translateY(6px) scale(.992);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@media(max-width:520px){
+  .prediction-card-header{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .prediction-confidence{
+    margin-right:auto;
+  }
+
+  .prediction-body{
+    grid-template-columns:112px minmax(0,1fr);
+    gap:12px;
+  }
+
+  .prediction-image-wrap{
+    min-height:145px;
+  }
+
+  .prediction-copy h4{
+    font-size:21px;
+  }
+}
+
+@media(max-width:380px){
+  .prediction-body{
+    grid-template-columns:1fr;
+  }
+
+  .prediction-image-wrap{
+    min-height:190px;
+  }
+
+  .prediction-actions{
+    flex-direction:column;
+  }
+
+  .prediction-actions .primary-btn,
+  .prediction-actions .secondary-btn{
+    width:100%;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .prediction-swap{
+    animation:none!important;
+  }
+
+  .learning-score-fill{
+    transition:none!important;
+    transform:scaleX(1)!important;
+  }
+}
