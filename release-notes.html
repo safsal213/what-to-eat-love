@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7a3d24">
+  <title>מה חדש — מה בא לך לאכול?</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg:#fff9f5;
+      --surface:rgba(255,255,255,.95);
+      --text:#2b1a14;
+      --muted:#756159;
+      --accent:#c75b39;
+      --accent-dark:#8c3c26;
+      --shadow:0 18px 48px rgba(71,34,21,.14);
+    }
+    * { box-sizing:border-box; }
+    body {
+      min-height:100dvh;
+      margin:0;
+      padding:max(22px,env(safe-area-inset-top))
+              max(18px,env(safe-area-inset-right))
+              max(22px,env(safe-area-inset-bottom))
+              max(18px,env(safe-area-inset-left));
+      font-family:Arial,"Noto Sans Hebrew",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 18% 12%,rgba(255,215,191,.58),transparent 30%),
+        radial-gradient(circle at 82% 76%,rgba(247,196,179,.42),transparent 32%),
+        var(--bg);
+    }
+    main {
+      width:min(100%,720px);
+      margin:0 auto;
+    }
+    header,
+    section {
+      border:1px solid rgba(123,67,43,.07);
+      border-radius:26px;
+      background:var(--surface);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+    header {
+      padding:26px 22px;
+      text-align:center;
+      margin-bottom:14px;
+    }
+    .logo {
+      width:72px;
+      height:72px;
+      display:grid;
+      place-items:center;
+      margin:0 auto 14px;
+      border-radius:24px;
+      background:#fff;
+      box-shadow:0 12px 28px rgba(71,34,21,.10);
+      font-size:36px;
+    }
+    .eyebrow {
+      margin:0 0 5px;
+      color:var(--accent-dark);
+      font-size:13px;
+      font-weight:800;
+    }
+    h1 {
+      margin:0;
+      font-size:30px;
+      letter-spacing:-.03em;
+    }
+    .intro {
+      margin:8px auto 0;
+      max-width:48ch;
+      color:var(--muted);
+      line-height:1.55;
+    }
+    section {
+      padding:20px;
+      margin-bottom:12px;
+    }
+    h2 {
+      margin:0 0 12px;
+      font-size:21px;
+    }
+    ul {
+      margin:0;
+      padding:0 20px 0 0;
+      line-height:1.75;
+    }
+    li + li { margin-top:5px; }
+    .version {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:14px;
+      padding:7px 11px;
+      border-radius:999px;
+      background:rgba(255,244,237,.92);
+      color:var(--accent-dark);
+      font-size:12px;
+      font-weight:900;
+    }
+    .back {
+      width:100%;
+      min-height:48px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:2px;
+      border-radius:16px;
+      background:linear-gradient(180deg,#d36b47,#b94830);
+      color:#fff;
+      text-decoration:none;
+      font-weight:900;
+      box-shadow:0 10px 22px rgba(185,72,48,.22);
+    }
+    footer {
+      margin-top:16px;
+      color:var(--muted);
+      text-align:center;
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="logo">🚀</div>
+      <p class="eyebrow">Release Candidate</p>
+      <h1>מה חדש בגרסה?</h1>
+      <p class="intro">הגענו לשלב הסופי לפני גרסה 1.0 — עם דגש על יציבות, איכות וחוויית שימוש מלוטשת.</p>
+      <span class="version">Version 1.0.0 RC‑02</span>
+    </header>
+
+    <section>
+      <h2>🧠 חוויה חכמה יותר</h2>
+      <ul>
+        <li>Smart Predictions עם המלצות לפי ההיסטוריה וההרגלים שלכם.</li>
+        <li>Learning Score שמראה כמה האפליקציה כבר מכירה אתכם.</li>
+        <li>Rediscover שמחזיר מנות אהובות שלא בחרתם הרבה זמן.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>📊 תובנות וזיכרונות</h2>
+      <ul>
+        <li>Dashboard עם סטטיסטיקות וגרף שבועי.</li>
+        <li>מערכת הישגים עם התקדמות ומצבי נעול/פתוח.</li>
+        <li>Timeline Premium ויומן ארוחות עם תמונות ותאריכים.</li>
+        <li>כרטיס “המסע שלכם” עם ימים, ארוחות ומנות שונות.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>❤️ חוויית שימוש</h2>
+      <ul>
+        <li>מועדפים, Smart Shuffle ורולטה קולנועית.</li>
+        <li>Design System אחיד לכל הכפתורים והכרטיסים.</li>
+        <li>Toasts, Skeleton Loading ואנימציות עדינות.</li>
+        <li>עבודה אופליין מלאה לאחר טעינה ראשונה.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🛡️ יציבות</h2>
+      <ul>
+        <li>הגרסה מבוססת על v3.8.1 היציבה.</li>
+        <li>אין שינוי ב־Google Sheets או ב־Apps Script.</li>
+        <li>לא נוספה תלות חדשה בזמן האתחול.</li>
+        <li>האפליקציה נשארת ניתנת לחזרה לגרסה הקודמת בכל רגע.</li>
+      </ul>
+    </section>
+
+    <a class="back" href="about.html">← חזרה לעמוד האודות</a>
+    <footer>נבנה באהבה עבור מעיין ❤️</footer>
+  </main>
+</body>
+</html>
