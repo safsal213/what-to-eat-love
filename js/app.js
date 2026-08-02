@@ -24,6 +24,34 @@ import { pickRediscoverMeal, renderRediscover } from './rediscover/index.js';
 import { buildPredictions, createPredictionController } from './predictions/index.js';
 import { showToast as showPremiumToast, showCelebration } from './feedback/index.js';
 import { scanImageSkeletons } from './feedback/skeleton.js';
+import { installRuntimeGuard, BUILD_INFO } from './release/index.js';
+
+installRuntimeGuard({
+  onRetry: () => {
+    window.location.reload();
+  }
+});
+
+console.info(
+  `[What To Eat] ${BUILD_INFO.version} • ${BUILD_INFO.channel}`
+);
+
+const RC_BOOT_TIMEOUT_MS = 12000;
+
+window.setTimeout(() => {
+  const loadingView = document.getElementById('loadingView');
+
+  if (loadingView && !loadingView.classList.contains('hidden')) {
+    window.dispatchEvent(
+      new ErrorEvent('error', {
+        message: 'BOOT_TIMEOUT'
+      })
+    );
+  }
+}, RC_BOOT_TIMEOUT_MS);
+
+
+
 
 const state = {
   categories: [],
