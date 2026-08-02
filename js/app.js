@@ -17,6 +17,7 @@ import { createRouletteController } from './roulette.js';
 import { renderFavoritesScreen } from './favorites.js';
 import { renderMealJournal } from './journal.js';
 import { calculateInsights, renderInsights } from './insights.js';
+import { calculateAchievements, renderAchievements } from './achievements/index.js';
 
 const state = {
   categories: [],
@@ -278,10 +279,21 @@ function openInsights() {
     meals: state.meals
   });
 
+  const achievements = calculateAchievements({
+    history: state.selectionHistory,
+    meals: state.meals
+  });
+
   renderInsights({
     insights,
     emptyState: el('insightsEmpty'),
     grid: el('insightsGrid')
+  });
+
+  renderAchievements({
+    achievements,
+    container: el('achievementsGrid'),
+    summaryElement: el('achievementsSummary')
   });
 
   showView('insightsView');
