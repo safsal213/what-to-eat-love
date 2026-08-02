@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="style.css">
   <title>מה בא לך לאכול אהובתי?</title>
 </head>
-<body data-build="3.7-design-system-foundation">
+<body data-build="3.8-native-feel">
   <header class="topbar" role="banner">
     <div class="brand-block">
       <div id="headerAvatar" class="header-avatar" aria-hidden="true">❤️</div>
@@ -519,5 +519,19 @@
   </template>
 
   <script type="module" src="js/app.js"></script>
+
+  <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
+
+  <div id="celebrationHost" class="celebration-host hidden" aria-hidden="true">
+    <div class="celebration-backdrop"></div>
+    <section class="celebration-card" role="dialog" aria-modal="true" aria-labelledby="celebrationTitle">
+      <div id="celebrationIcon" class="celebration-icon">🏆</div>
+      <h2 id="celebrationTitle">כל הכבוד!</h2>
+      <p id="celebrationMessage">פתחתם הישג חדש.</p>
+      <button id="celebrationCloseBtn" class="primary-btn" type="button">איזה כיף</button>
+      <div id="celebrationParticles" class="celebration-particles" aria-hidden="true"></div>
+    </section>
+  </div>
+
 </body>
 </html>

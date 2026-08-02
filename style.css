@@ -4242,3 +4242,321 @@ a:focus-visible,
     animation:none!important;
   }
 }
+
+
+/* v3.8 — Native Feel 7.4.2B */
+html{
+  overscroll-behavior-y:none;
+  background:var(--ds-color-bg);
+}
+
+body{
+  min-height:100dvh;
+  overscroll-behavior-y:none;
+  touch-action:manipulation;
+}
+
+body::before,
+body::after,
+.app-shell::before{
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+
+/* Ambient layer refinement */
+body::before{
+  animation-duration:24s;
+  opacity:.34;
+}
+
+body::after{
+  animation-duration:30s;
+  opacity:.30;
+}
+
+.app-shell::before{
+  animation-duration:28s;
+  opacity:.5;
+}
+
+/* Toast engine */
+.toast-host{
+  position:fixed;
+  z-index:1200;
+  left:max(14px,env(safe-area-inset-left));
+  right:max(14px,env(safe-area-inset-right));
+  bottom:max(18px,calc(env(safe-area-inset-bottom) + 12px));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  pointer-events:none;
+}
+
+.app-toast{
+  width:min(100%,460px);
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) 34px;
+  align-items:center;
+  gap:10px;
+  padding:11px 12px;
+  border:1px solid rgba(123,67,43,.075);
+  border-radius:18px;
+  background:rgba(255,255,255,.94);
+  box-shadow:var(--ds-shadow-lg);
+  backdrop-filter:blur(var(--ds-blur-lg));
+  -webkit-backdrop-filter:blur(var(--ds-blur-lg));
+  opacity:0;
+  transform:translateY(16px) scale(.985);
+  transition:
+    opacity 220ms var(--ds-ease-standard),
+    transform 220ms var(--ds-ease-standard);
+  pointer-events:auto;
+}
+
+.app-toast.is-visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+.app-toast.is-leaving{
+  opacity:0;
+  transform:translateY(8px) scale(.99);
+}
+
+.app-toast-icon{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:rgba(255,245,239,.94);
+  font-size:21px;
+}
+
+.app-toast-copy{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.app-toast-copy strong{
+  font-size:14px;
+}
+
+.app-toast-copy span{
+  overflow:hidden;
+  color:var(--ds-color-text-muted);
+  font-size:12px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.app-toast-close{
+  width:34px;
+  height:34px;
+  min-width:34px;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:var(--ds-color-text-muted);
+  font-size:22px;
+}
+
+.app-toast-success .app-toast-icon{background:rgba(78,141,102,.12)}
+.app-toast-favorite .app-toast-icon{background:rgba(202,83,109,.12)}
+.app-toast-achievement .app-toast-icon{background:rgba(198,138,53,.14)}
+.app-toast-prediction .app-toast-icon{background:rgba(115,88,178,.12)}
+.app-toast-error .app-toast-icon{background:rgba(182,79,79,.12)}
+
+/* Celebration engine */
+.celebration-host{
+  position:fixed;
+  z-index:1300;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:
+    max(18px,env(safe-area-inset-top))
+    max(18px,env(safe-area-inset-right))
+    max(18px,env(safe-area-inset-bottom))
+    max(18px,env(safe-area-inset-left));
+  opacity:0;
+  transition:opacity 260ms ease;
+}
+
+.celebration-host.is-visible{
+  opacity:1;
+}
+
+.celebration-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(45,26,19,.36);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+.celebration-card{
+  position:relative;
+  z-index:2;
+  width:min(100%,390px);
+  padding:28px 22px 22px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,224,204,.92),transparent 42%),
+    rgba(255,255,255,.97);
+  box-shadow:0 28px 72px rgba(54,25,15,.30);
+  text-align:center;
+  transform:translateY(18px) scale(.94);
+  transition:transform 360ms var(--ds-ease-emphasized);
+}
+
+.celebration-host.is-visible .celebration-card{
+  transform:translateY(0) scale(1);
+}
+
+.celebration-icon{
+  width:76px;
+  height:76px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 14px;
+  border-radius:26px;
+  background:rgba(255,255,255,.88);
+  font-size:38px;
+  box-shadow:var(--ds-shadow-md);
+  animation:celebrationIconPop .62s var(--ds-ease-emphasized) both;
+}
+
+.celebration-card h2{
+  margin:0 0 7px;
+  font-size:27px;
+}
+
+.celebration-card p{
+  margin:0 0 18px;
+  color:var(--ds-color-text-muted);
+  line-height:1.5;
+}
+
+.celebration-particles{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.celebration-particles span{
+  position:absolute;
+  left:var(--particle-x);
+  bottom:36%;
+  opacity:0;
+  animation:
+    celebrationParticle 1.15s var(--particle-delay)
+    var(--ds-ease-standard) forwards;
+}
+
+@keyframes celebrationIconPop{
+  0%{opacity:0;transform:scale(.55) rotate(-8deg)}
+  60%{opacity:1;transform:scale(1.12) rotate(3deg)}
+  100%{opacity:1;transform:scale(1) rotate(0)}
+}
+
+@keyframes celebrationParticle{
+  0%{
+    opacity:0;
+    transform:translate(-50%,0) scale(.5) rotate(0);
+  }
+  18%{opacity:1}
+  100%{
+    opacity:0;
+    transform:
+      translate(calc(-50% + var(--particle-drift)),-150px)
+      scale(1.05)
+      rotate(var(--particle-rotate));
+  }
+}
+
+/* Skeleton engine */
+.has-skeleton{
+  position:relative;
+  overflow:hidden;
+}
+
+.has-skeleton::after{
+  content:'';
+  position:absolute;
+  z-index:5;
+  inset:0;
+  background:
+    linear-gradient(
+      105deg,
+      rgba(242,223,211,.9) 20%,
+      rgba(255,248,243,.98) 38%,
+      rgba(242,223,211,.9) 56%
+    );
+  background-size:220% 100%;
+  animation:skeletonShimmer 1.15s linear infinite;
+}
+
+.image-ready::after{
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 240ms ease;
+}
+
+@keyframes skeletonShimmer{
+  from{background-position:200% 0}
+  to{background-position:-20% 0}
+}
+
+/* Native touch and scroll refinement */
+button,
+[role="button"],
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.app-shell{
+  scroll-margin-top:env(safe-area-inset-top);
+}
+
+@media(orientation:landscape) and (max-height:520px){
+  .topbar{
+    padding-top:calc(7px + env(safe-area-inset-top));
+    padding-bottom:7px;
+  }
+
+  .app-shell{
+    padding-top:10px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body::before,
+  body::after,
+  .app-shell::before,
+  .celebration-icon,
+  .celebration-particles span,
+  .has-skeleton::after{
+    animation:none!important;
+  }
+
+  .celebration-card,
+  .celebration-host,
+  .app-toast{
+    transition:none!important;
+  }
+}
+
+@media(prefers-reduced-transparency:reduce){
+  .app-toast,
+  .celebration-card{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    background:#fff!important;
+  }
+}

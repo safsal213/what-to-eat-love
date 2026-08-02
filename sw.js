@@ -1,4 +1,4 @@
-const CACHE_NAME = 'what-to-eat-v31-design-system-foundation';
+const CACHE_NAME = 'what-to-eat-v32-native-feel';
 const STATIC_ASSETS = [
   './','index.html','style.css','manifest.json','js/app.js','js/api.js','js/data.js','js/storage.js','js/ui.js',
   'js/swipe.js',
@@ -11,6 +11,10 @@ const STATIC_ASSETS = [
   'js/timeline/renderer.js',
   'js/rediscover/renderer.js',
   'js/predictions/renderer.js',
+  'js/feedback/skeleton.js',
+  'js/feedback/celebration.js',
+  'js/feedback/toast.js',
+  'js/feedback/index.js',
   'js/predictions/engine.js',
   'js/predictions/index.js',
   'js/rediscover/engine.js',
