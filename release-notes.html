@@ -17,6 +17,14 @@
       --shadow:0 18px 48px rgba(71,34,21,.14);
     }
     * { box-sizing:border-box; }
+    .skip-link {
+      position:fixed; top:8px; right:12px; z-index:20;
+      padding:9px 12px; border-radius:12px;
+      background:#2b1a14; color:#fff; text-decoration:none;
+      font-weight:900; transform:translateY(-150%);
+    }
+    .skip-link:focus { transform:translateY(0); }
+    a:focus-visible { outline:3px solid rgba(140,60,38,.72); outline-offset:3px; }
     body {
       min-height:100dvh;
       margin:0;
@@ -125,7 +133,8 @@
   </style>
 </head>
 <body>
-  <main>
+  <a href="#mainContent" class="skip-link">דלגו לתוכן הראשי</a>
+  <main id="mainContent">
     <header>
       <div class="logo">🚀</div>
       <p class="eyebrow">Release Candidate</p>

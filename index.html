@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="style.css">
   <title>מה בא לך לאכול אהובתי?</title>
 </head>
-<body data-build="1.0.0-rc01-build-info">
+<body data-build="1.0.0-rc04-accessibility-polish">
+  <a class="skip-link" href="#mainContent">דלגו לתוכן הראשי</a>
   <header class="topbar" role="banner">
     <div class="brand-block">
       <div id="headerAvatar" class="header-avatar" aria-hidden="true">❤️</div>
@@ -29,7 +30,7 @@
     </div>
   </header>
 
-  <main class="app-shell" id="mainContent">
+  <main class="app-shell" id="mainContent" tabindex="-1">
     <section id="roleView" class="role-screen hidden">
       <div class="role-intro">
         <div class="role-logo">❤️</div>
@@ -38,12 +39,12 @@
         <p>הבחירה נשמרת במכשיר ואפשר להחליף אחר כך.</p>
       </div>
       <div class="role-grid">
-        <button id="chooseMaayanBtn" class="role-card" type="button">
+        <button id="chooseMaayanBtn" class="role-card" type="button" aria-label="להיכנס כאני מעיין ולבחור מה לאכול">
           <span class="role-avatar">👩</span>
           <strong>אני מעיין</strong>
           <small>לבחור מה לאכול</small>
         </button>
-        <button id="chooseHaimBtn" class="role-card" type="button">
+        <button id="chooseHaimBtn" class="role-card" type="button" aria-label="להיכנס כאני חיים ולראות מה מעיין בחרה">
           <span class="role-avatar">👨</span>
           <strong>אני חיים</strong>
           <small>לראות מה מעיין בחרה</small>
@@ -57,7 +58,7 @@
       <p>עוד רגע הכול מוכן</p>
     </section>
 
-    <section id="errorView" class="status-card hidden">
+    <section id="errorView" class="status-card hidden" role="alert">
       <div class="status-emoji">😕</div>
       <h2>לא הצלחנו לטעון</h2>
       <p id="errorText">בדוק את החיבור ונסה שוב.</p>
