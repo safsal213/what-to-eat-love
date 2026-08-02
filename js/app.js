@@ -22,7 +22,7 @@ import { buildTimelineEntries, renderTimeline } from './timeline/index.js';
 import { calculateJourney, renderJourney } from './journey/index.js';
 import { pickRediscoverMeal, renderRediscover } from './rediscover/index.js';
 import { buildPredictions, createPredictionController } from './predictions/index.js';
-import { showToast, showCelebration } from './feedback/index.js';
+import { showToast as showPremiumToast, showCelebration } from './feedback/index.js';
 import { scanImageSkeletons } from './feedback/skeleton.js';
 
 const state = {
@@ -54,7 +54,7 @@ imageSkeletonObserver.observe(document.body, {
 
 const predictionController = createPredictionController({
   onOpen: meal => {
-    showToast({
+    showPremiumToast({
       type: 'prediction',
       icon: '🔮',
       title: 'פתחנו את ההמלצה',
@@ -367,7 +367,7 @@ function openInsights() {
   renderRediscover({
     candidate: rediscoverCandidate,
     onOpen: meal => {
-      showToast({
+      showPremiumToast({
         type: 'success',
         icon: '🔄',
         title: 'חוזרים למנה אהובה',
@@ -463,14 +463,6 @@ async function handleToggleFavorite(meal, options = {}) {
       'error'
     );
   }
-
-  showToast({
-    type: meal.favorite ? 'favorite' : 'info',
-    icon: meal.favorite ? '❤️' : '🤍',
-    title: meal.favorite ? 'נוסף למועדפים' : 'הוסר מהמועדפים',
-    message: meal.name || ''
-  });
-
 }
 
 function updateFavoriteViews(options = {}) {
