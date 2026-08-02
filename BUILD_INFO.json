@@ -1,13 +1,14 @@
 {
-  "version": "1.0.0-rc03",
+  "version": "1.0.0-rc04",
   "channel": "release-candidate",
-  "status": "clean-deployment-package",
+  "status": "accessibility-polish",
   "buildTimeUtc": "2026-08-02T13:16:07+00:00",
-  "source": "v1.0.0-rc02",
+  "source": "v1.0.0-rc03",
   "startupDependenciesAdded": false,
   "appJsChanged": false,
   "serviceWorkerChanged": false,
   "apiChanged": false,
   "googleSheetsChanged": false,
-  "projectCleanup": true
+  "projectCleanup": true,
+  "accessibilityAudit": true
 }
