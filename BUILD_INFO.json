@@ -1,10 +1,12 @@
 {
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc01",
   "channel": "release-candidate",
-  "codeFreeze": true,
-  "buildTimeUtc": "2026-08-02T10:36:49+00:00",
-  "sourceVersion": "3.8.1-native-feel-hotfix",
-  "apiChanges": false,
-  "sheetChanges": false,
-  "serviceWorkerCache": "what-to-eat-v100-rc1"
+  "status": "stable-baseline",
+  "buildTimeUtc": "2026-08-02T13:16:07+00:00",
+  "source": "v3.8.1-native-feel-hotfix",
+  "startupDependenciesAdded": false,
+  "appJsChanged": false,
+  "serviceWorkerChanged": false,
+  "apiChanged": false,
+  "googleSheetsChanged": false
 }

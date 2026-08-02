@@ -4562,77 +4562,10 @@ a{
 }
 
 
-/* v1.0.0-rc1 — Release Candidate Stability */
-.runtime-recovery{
-  position:fixed;
-  z-index:1500;
-  inset:0;
-  display:grid;
+/* RC-01 — Static About link */
+.about-link-btn{
+  display:inline-grid;
   place-items:center;
-  padding:
-    max(18px,env(safe-area-inset-top))
-    max(18px,env(safe-area-inset-right))
-    max(18px,env(safe-area-inset-bottom))
-    max(18px,env(safe-area-inset-left));
-  background:rgba(44,26,19,.38);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-}
-
-.runtime-recovery-card{
-  width:min(100%,430px);
-  padding:28px 22px;
-  border:1px solid rgba(255,255,255,.58);
-  border-radius:28px;
-  background:
-    radial-gradient(circle at 50% 0%,rgba(255,224,204,.78),transparent 42%),
-    rgba(255,255,255,.98);
-  box-shadow:0 28px 72px rgba(54,25,15,.30);
-  text-align:center;
-}
-
-.runtime-recovery-card h2{
-  margin:8px 0 6px;
-  font-size:26px;
-}
-
-.runtime-recovery-card p{
-  margin:0 auto 18px;
-  max-width:34ch;
-  color:var(--ds-color-text-muted);
-  line-height:1.55;
-}
-
-.runtime-recovery-actions{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:9px;
-}
-
-.runtime-recovery-card small{
-  display:block;
-  max-width:100%;
-  margin-top:14px;
-  overflow-wrap:anywhere;
-  color:var(--ds-color-text-soft);
-  font-size:10px;
-}
-
-@media(max-width:380px){
-  .runtime-recovery-actions{
-    flex-direction:column;
-  }
-
-  .runtime-recovery-actions button{
-    width:100%;
-  }
-}
-
-@media(prefers-reduced-transparency:reduce){
-  .runtime-recovery,
-  .runtime-recovery-card{
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
-  }
+  text-decoration:none;
+  line-height:1;
 }
